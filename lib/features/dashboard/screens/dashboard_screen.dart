@@ -53,41 +53,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      body:
-          dashboardProvider.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : RefreshIndicator(
-                onRefresh: () => dashboardProvider.refreshDashboardData(),
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Welcome section
-                      _buildWelcomeSection(user?.fullName ?? 'User'),
+      body: dashboardProvider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: () => dashboardProvider.refreshDashboardData(),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Welcome section
+                    _buildWelcomeSection(user?.fullName ?? 'User'),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      // Children section
-                      _buildChildrenSection(dashboardProvider.children),
+                    // Children section
+                    _buildChildrenSection(dashboardProvider.children),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      // Upcoming events section
-                      _buildUpcomingEventsSection(
-                        dashboardProvider.upcomingEvents,
-                      ),
+                    // Upcoming events section
+                    _buildUpcomingEventsSection(
+                      dashboardProvider.upcomingEvents,
+                    ),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      // Recent messages section
-                      _buildRecentMessagesSection(
-                        dashboardProvider.recentMessages,
-                      ),
-                    ],
-                  ),
+                    // Recent messages section
+                    _buildRecentMessagesSection(
+                      dashboardProvider.recentMessages,
+                    ),
+                  ],
                 ),
               ),
+            ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _currentNavIndex,
         onTap: _handleNavigation,
@@ -120,9 +119,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'Welcome to Harmony Bridge',
-            style: const TextStyle(fontSize: 16, color: AppColors.textSecondary),
+            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 16),
           Row(
@@ -212,7 +211,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             Text(
               '${child.age} years',
-              style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+              style:
+                  const TextStyle(fontSize: 12, color: AppColors.textSecondary),
             ),
           ],
         ),
@@ -250,10 +250,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildEventCard(EventModel event) {
     final formattedDate = _formatEventDate(event);
-    final formattedTime =
-        event.isAllDay
-            ? 'All day'
-            : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
+    final formattedTime = event.isAllDay
+        ? 'All day'
+        : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
 
     return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
@@ -324,8 +323,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildMessageCard(MessageModel message) {
-    final isOutgoing =
-        message.senderId ==
+    final isOutgoing = message.senderId ==
         Provider.of<AuthProvider>(context, listen: false).currentUser?.id;
     final formattedTime = _formatMessageTime(message.timestamp);
 
@@ -365,7 +363,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.only(top: 4),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.attachment,
                       size: 16,
                       color: AppColors.textSecondary,

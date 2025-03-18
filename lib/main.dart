@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
             // Set default text scaling
             data: MediaQuery.of(
               context,
-            ).copyWith(textScaleFactor: 1.0),
+            ).copyWith(textScaler: const TextScaler.linear(1.0)),
             child: child!,
           );
         },

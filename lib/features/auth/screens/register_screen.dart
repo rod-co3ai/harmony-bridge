@@ -130,10 +130,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: !_passwordVisible,
                     textInputAction: TextInputAction.next,
                     validator: Validators.validatePassword,
-                    suffixIcon:
-                        _passwordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
+                    suffixIcon: _passwordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     onSuffixIconPressed: () {
                       setState(() {
                         _passwordVisible = !_passwordVisible;
@@ -152,10 +151,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: !_confirmPasswordVisible,
                     textInputAction: TextInputAction.done,
                     validator: _validateConfirmPassword,
-                    suffixIcon:
-                        _confirmPasswordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
+                    suffixIcon: _confirmPasswordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     onSuffixIconPressed: () {
                       setState(() {
                         _confirmPasswordVisible = !_confirmPasswordVisible;
@@ -179,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       Expanded(
                         child: RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                             text: 'I agree to the ',
                             style: TextStyle(color: AppColors.textSecondary),
                             children: [
@@ -190,7 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const TextSpan(text: ' and '),
+                              TextSpan(text: ' and '),
                               TextSpan(
                                 text: 'Privacy Policy',
                                 style: TextStyle(
@@ -209,14 +207,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   // Register button
                   AppButton(
-                    onPressed:
-                        _agreeToTerms
-                            ? () {
-                              _handleRegister(authProvider);
-                            }
-                            : () {
-                              // Do nothing when terms are not agreed to
-                            },
+                    onPressed: _agreeToTerms
+                        ? () {
+                            _handleRegister(authProvider);
+                          }
+                        : () {
+                            // Do nothing when terms are not agreed to
+                          },
                     text: 'Create Account',
                     isLoading: authProvider.isLoading,
                   ),
@@ -230,7 +227,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text(
                         authProvider.error!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.error, fontSize: 14),
+                        style: const TextStyle(
+                            color: AppColors.error, fontSize: 14),
                       ),
                     ),
 
@@ -238,7 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Already have an account?',
                         style: TextStyle(color: AppColors.textSecondary),
                       ),
@@ -249,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             AppRouter.login,
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Log In',
                           style: TextStyle(
                             color: AppColors.primary,

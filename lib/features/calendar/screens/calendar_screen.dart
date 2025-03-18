@@ -47,18 +47,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ],
       ),
-      body:
-          calendarProvider.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                children: [
-                  // Calendar
-                  _buildCalendar(calendarProvider),
+      body: calendarProvider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                // Calendar
+                _buildCalendar(calendarProvider),
 
-                  // Events list
-                  Expanded(child: _buildEventsList(selectedEvents)),
-                ],
-              ),
+                // Events list
+                Expanded(child: _buildEventsList(selectedEvents)),
+              ],
+            ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _currentNavIndex,
         onTap: _handleNavigation,
@@ -68,7 +67,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           _showAddEventDialog(context);
         },
         backgroundColor: AppColors.primary,
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
@@ -106,11 +105,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
       },
       calendarStyle: CalendarStyle(
         markersMaxCount: 3,
-        markerDecoration: BoxDecoration(
+        markerDecoration: const BoxDecoration(
           color: AppColors.primary,
           shape: BoxShape.circle,
         ),
-        selectedDecoration: BoxDecoration(
+        selectedDecoration: const BoxDecoration(
           color: AppColors.primary,
           shape: BoxShape.circle,
         ),
@@ -124,7 +123,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           color: AppColors.primary.withAlpha(70),
           borderRadius: BorderRadius.circular(16),
         ),
-        formatButtonTextStyle: TextStyle(
+        formatButtonTextStyle: const TextStyle(
           color: AppColors.primary,
           fontWeight: FontWeight.bold,
         ),
@@ -173,10 +172,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Widget _buildEventCard(EventModel event) {
-    final formattedTime =
-        event.isAllDay
-            ? 'All day'
-            : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
+    final formattedTime = event.isAllDay
+        ? 'All day'
+        : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
 
     return AppCard(
       margin: const EdgeInsets.only(bottom: 16),
@@ -218,7 +216,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
                   event.description!,
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: const TextStyle(color: AppColors.textSecondary),
                 ),
               ),
             if (event.location != null && event.location!.isNotEmpty)
@@ -226,7 +224,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on,
                       size: 16,
                       color: AppColors.textSecondary,
@@ -235,7 +233,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Expanded(
                       child: Text(
                         event.location!,
-                        style: TextStyle(color: AppColors.textSecondary),
+                        style: const TextStyle(color: AppColors.textSecondary),
                       ),
                     ),
                   ],
@@ -246,8 +244,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Wrap(
                   spacing: 8,
-                  children:
-                      event.childrenIds?.map((childId) {
+                  children: event.childrenIds?.map((childId) {
                         // TODO: Get child name from provider
                         return Chip(
                           label: Text(
@@ -274,29 +271,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
               _showDeleteConfirmation(context, event);
             }
           },
-          itemBuilder:
-              (context) => [
-                const PopupMenuItem(
-                  value: 'edit',
-                  child: Row(
-                    children: [
-                      Icon(Icons.edit, size: 18),
-                      SizedBox(width: 8),
-                      Text('Edit'),
-                    ],
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'delete',
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete, size: 18, color: AppColors.error),
-                      SizedBox(width: 8),
-                      Text('Delete', style: TextStyle(color: AppColors.error)),
-                    ],
-                  ),
-                ),
-              ],
+          itemBuilder: (context) => [
+            const PopupMenuItem(
+              value: 'edit',
+              child: Row(
+                children: [
+                  Icon(Icons.edit, size: 18),
+                  SizedBox(width: 8),
+                  Text('Edit'),
+                ],
+              ),
+            ),
+            const PopupMenuItem(
+              value: 'delete',
+              child: Row(
+                children: [
+                  Icon(Icons.delete, size: 18, color: AppColors.error),
+                  SizedBox(width: 8),
+                  Text('Delete', style: TextStyle(color: AppColors.error)),
+                ],
+              ),
+            ),
+          ],
         ),
         onTap: () {
           // TODO: Navigate to event details
@@ -333,11 +329,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Filter Events'),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               // TODO: Implement filters
-              const Text('Filter options will be implemented here'),
+              Text('Filter options will be implemented here'),
             ],
           ),
           actions: [

@@ -77,10 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 8),
 
                   // Tagline
-                  Text(
+                  const Text(
                     'Connecting co-parents for better childcare',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       color: AppColors.textSecondary,
                     ),
@@ -110,10 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: !_passwordVisible,
                     textInputAction: TextInputAction.done,
                     validator: Validators.validatePassword,
-                    suffixIcon:
-                        _passwordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
+                    suffixIcon: _passwordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                     onSuffixIconPressed: () {
                       setState(() {
                         _passwordVisible = !_passwordVisible;
@@ -139,9 +138,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             activeColor: AppColors.primary,
                           ),
-                          Text(
+                          const Text(
                             'Remember me',
-                            style: const TextStyle(color: AppColors.textSecondary),
+                            style: TextStyle(color: AppColors.textSecondary),
                           ),
                         ],
                       ),
@@ -180,7 +179,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         authProvider.error!,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(color: AppColors.error, fontSize: 14),
+                        style: const TextStyle(
+                            color: AppColors.error, fontSize: 14),
                       ),
                     ),
 
@@ -188,9 +188,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Don\'t have an account?',
-                        style: const TextStyle(color: AppColors.textSecondary),
+                        style: TextStyle(color: AppColors.textSecondary),
                       ),
                       TextButton(
                         onPressed: () {

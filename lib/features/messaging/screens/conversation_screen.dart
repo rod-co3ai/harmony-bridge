@@ -89,10 +89,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   participant?.isOnline ?? false ? 'Online' : 'Offline',
                   style: TextStyle(
                     fontSize: 12,
-                    color:
-                        participant?.isOnline ?? false
-                            ? AppColors.secondary
-                            : AppColors.textSecondary,
+                    color: participant?.isOnline ?? false
+                        ? AppColors.secondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -124,10 +123,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
         children: [
           // Messages list
           Expanded(
-            child:
-                messagingProvider.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : messages.isEmpty
+            child: messagingProvider.isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : messages.isEmpty
                     ? _buildEmptyState()
                     : _buildMessagesList(messages, currentUserId),
           ),
@@ -140,58 +138,57 @@ class _ConversationScreenState extends State<ConversationScreen> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children:
-                      _selectedAttachments.map((attachment) {
-                        return Container(
-                          margin: const EdgeInsets.only(right: 8),
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: AppColors.border,
-                            borderRadius: BorderRadius.circular(8),
+                  children: _selectedAttachments.map((attachment) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: AppColors.border,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Stack(
+                        children: [
+                          const Center(
+                            child: Icon(
+                              Icons.insert_drive_file,
+                              color: AppColors.textSecondary,
+                              size: 32,
+                            ),
                           ),
-                          child: Stack(
-                            children: [
-                              Center(
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedAttachments.remove(attachment);
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withAlpha(13),
+                                      blurRadius: 2,
+                                    ),
+                                  ],
+                                ),
                                 child: const Icon(
-                                  Icons.insert_drive_file,
-                                  color: AppColors.textSecondary,
-                                  size: 32,
+                                  Icons.close,
+                                  size: 16,
+                                  color: AppColors.error,
                                 ),
                               ),
-                              Positioned(
-                                top: 4,
-                                right: 4,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedAttachments.remove(attachment);
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withAlpha(13),
-                                          blurRadius: 2,
-                                        ),
-                                      ],
-                                    ),
-                                    child: const Icon(
-                                      Icons.close,
-                                      size: 16,
-                                      color: AppColors.error,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        );
-                      }).toList(),
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
@@ -275,10 +272,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   IconButton(
                     icon: Icon(
                       _showAttachmentOptions ? Icons.close : Icons.attach_file,
-                      color:
-                          _showAttachmentOptions
-                              ? AppColors.error
-                              : AppColors.textSecondary,
+                      color: _showAttachmentOptions
+                          ? AppColors.error
+                          : AppColors.textSecondary,
                     ),
                     onPressed: () {
                       setState(() {
@@ -291,7 +287,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       controller: _messageController,
                       decoration: InputDecoration(
                         hintText: 'Type a message...',
-                        hintStyle: const TextStyle(color: AppColors.textSecondary),
+                        hintStyle:
+                            const TextStyle(color: AppColors.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(24),
                           borderSide: BorderSide.none,
@@ -312,17 +309,18 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   _messageController.text.trim().isEmpty &&
                           _selectedAttachments.isEmpty
                       ? IconButton(
-                        icon: const Icon(Icons.mic, color: AppColors.primary),
-                        onPressed: () {
-                          // TODO: Implement voice message
-                        },
-                      )
+                          icon: const Icon(Icons.mic, color: AppColors.primary),
+                          onPressed: () {
+                            // TODO: Implement voice message
+                          },
+                        )
                       : IconButton(
-                        icon: const Icon(Icons.send, color: AppColors.primary),
-                        onPressed: () {
-                          _sendMessage(messagingProvider, currentUserId);
-                        },
-                      ),
+                          icon:
+                              const Icon(Icons.send, color: AppColors.primary),
+                          onPressed: () {
+                            _sendMessage(messagingProvider, currentUserId);
+                          },
+                        ),
                 ],
               ),
             ),
@@ -333,22 +331,22 @@ class _ConversationScreenState extends State<ConversationScreen> {
   }
 
   Widget _buildEmptyState() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.message,
             size: 64,
             color: AppColors.textSecondary,
           ),
-          const SizedBox(height: 16),
-          const Text(
+          SizedBox(height: 16),
+          Text(
             'No messages yet',
             style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8),
+          Text(
             'Start the conversation by sending a message',
             style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
             textAlign: TextAlign.center,
@@ -369,9 +367,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
       groupedMessages[date]!.add(message);
     }
 
-    final sortedDates =
-        groupedMessages.keys.toList()
-          ..sort((a, b) => _parseDate(a).compareTo(_parseDate(b)));
+    final sortedDates = groupedMessages.keys.toList()
+      ..sort((a, b) => _parseDate(a).compareTo(_parseDate(b)));
 
     return ListView.builder(
       controller: _scrollController,
@@ -432,14 +429,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
               decoration: BoxDecoration(
                 color: isCurrentUser ? AppColors.primary : Colors.white,
                 borderRadius: BorderRadius.circular(16).copyWith(
-                  bottomLeft:
-                      isCurrentUser
-                          ? const Radius.circular(16)
-                          : const Radius.circular(4),
-                  bottomRight:
-                      isCurrentUser
-                          ? const Radius.circular(4)
-                          : const Radius.circular(16),
+                  bottomLeft: isCurrentUser
+                      ? const Radius.circular(16)
+                      : const Radius.circular(4),
+                  bottomRight: isCurrentUser
+                      ? const Radius.circular(4)
+                      : const Radius.circular(16),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -469,24 +464,23 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       child: Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children:
-                            message.attachments!.map((attachment) {
-                              return Container(
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  color: AppColors.background,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.insert_drive_file,
-                                    color: AppColors.textSecondary,
-                                    size: 32,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                        children: message.attachments!.map((attachment) {
+                          return Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: AppColors.background,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.insert_drive_file,
+                                color: AppColors.textSecondary,
+                                size: 32,
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
                 ],
@@ -512,10 +506,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       child: Icon(
                         message.isRead ? Icons.done_all : Icons.done,
                         size: 14,
-                        color:
-                            message.isRead
-                                ? AppColors.primary
-                                : AppColors.textSecondary,
+                        color: message.isRead
+                            ? AppColors.primary
+                            : AppColors.textSecondary,
                       ),
                     ),
                 ],
@@ -550,7 +543,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
           const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+            style:
+                const TextStyle(fontSize: 12, color: AppColors.textSecondary),
           ),
         ],
       ),
@@ -613,7 +607,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(30),
-                  child: const Icon(Icons.notifications, color: AppColors.primary),
+                  child:
+                      const Icon(Icons.notifications, color: AppColors.primary),
                 ),
                 title: const Text('Mute Notifications'),
                 onTap: () {

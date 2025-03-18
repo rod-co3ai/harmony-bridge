@@ -130,22 +130,19 @@ class _AppTextFieldState extends State<AppTextField> {
         helperText: widget.helperText,
         errorText: widget.errorText,
         filled: true,
-        fillColor:
-            widget.fillColor ??
+        fillColor: widget.fillColor ??
             (widget.enabled ? AppColors.surface : Colors.grey[100]),
         contentPadding: widget.contentPadding,
         counterText: widget.showCounter ? null : '',
-        prefixIcon:
-            widget.prefixIcon != null
-                ? Icon(
-                  widget.prefixIcon,
-                  color:
-                      _focusNode.hasFocus
-                          ? AppColors.primary
-                          : AppColors.textSecondary,
-                  size: 20,
-                )
-                : null,
+        prefixIcon: widget.prefixIcon != null
+            ? Icon(
+                widget.prefixIcon,
+                color: _focusNode.hasFocus
+                    ? AppColors.primary
+                    : AppColors.textSecondary,
+                size: 20,
+              )
+            : null,
         suffixIcon: _buildSuffixIcon(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -170,11 +167,11 @@ class _AppTextFieldState extends State<AppTextField> {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(color: AppColors.error, width: 1.0),
+          borderSide: const BorderSide(color: AppColors.error, width: 1.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(color: AppColors.error, width: 2.0),
+          borderSide: const BorderSide(color: AppColors.error, width: 2.0),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),

@@ -88,10 +88,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
 
           // Conversations list
           Expanded(
-            child:
-                messagingProvider.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : filteredConversations.isEmpty
+            child: messagingProvider.isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : filteredConversations.isEmpty
                     ? _buildEmptyState()
                     : _buildConversationsList(filteredConversations),
           ),
@@ -126,7 +125,8 @@ class _MessagingScreenState extends State<MessagingScreen> {
             _searchQuery.isEmpty
                 ? 'No conversations yet'
                 : 'No conversations matching "$_searchQuery"',
-            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+            style:
+                const TextStyle(fontSize: 16, color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
           if (_searchQuery.isNotEmpty)
@@ -146,17 +146,15 @@ class _MessagingScreenState extends State<MessagingScreen> {
 
   Widget _buildConversationsList(List<ConversationModel> conversations) {
     return RefreshIndicator(
-      onRefresh:
-          () =>
-              Provider.of<MessagingProvider>(
-                context,
-                listen: false,
-              ).refreshConversations(),
+      onRefresh: () => Provider.of<MessagingProvider>(
+        context,
+        listen: false,
+      ).refreshConversations(),
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         itemCount: conversations.length,
-        separatorBuilder:
-            (context, index) => const Divider(height: 1, indent: 72),
+        separatorBuilder: (context, index) =>
+            const Divider(height: 1, indent: 72),
         itemBuilder: (context, index) {
           final conversation = conversations[index];
           return _buildConversationTile(conversation);
@@ -212,10 +210,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
             child: Text(
               conversation.participantName,
               style: TextStyle(
-                fontWeight:
-                    conversation.unreadCount > 0
-                        ? FontWeight.bold
-                        : FontWeight.normal,
+                fontWeight: conversation.unreadCount > 0
+                    ? FontWeight.bold
+                    : FontWeight.normal,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -224,14 +221,12 @@ class _MessagingScreenState extends State<MessagingScreen> {
             formattedTime,
             style: TextStyle(
               fontSize: 12,
-              color:
-                  conversation.unreadCount > 0
-                      ? AppColors.primary
-                      : AppColors.textSecondary,
-              fontWeight:
-                  conversation.unreadCount > 0
-                      ? FontWeight.bold
-                      : FontWeight.normal,
+              color: conversation.unreadCount > 0
+                  ? AppColors.primary
+                  : AppColors.textSecondary,
+              fontWeight: conversation.unreadCount > 0
+                  ? FontWeight.bold
+                  : FontWeight.normal,
             ),
           ),
         ],
@@ -245,38 +240,36 @@ class _MessagingScreenState extends State<MessagingScreen> {
               if (conversation.lastMessageSenderId != 'current-user')
                 const SizedBox(width: 0)
               else
-                Row(
+                const Row(
                   children: [
-                    const Text(
+                    Text(
                       'You: ',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(width: 2),
+                    SizedBox(width: 2),
                   ],
                 ),
               Expanded(
                 child: Text(
                   conversation.lastMessageText,
                   style: TextStyle(
-                    color:
-                        conversation.unreadCount > 0
-                            ? AppColors.textPrimary
-                            : AppColors.textSecondary,
-                    fontWeight:
-                        conversation.unreadCount > 0
-                            ? FontWeight.w500
-                            : FontWeight.normal,
+                    color: conversation.unreadCount > 0
+                        ? AppColors.textPrimary
+                        : AppColors.textSecondary,
+                    fontWeight: conversation.unreadCount > 0
+                        ? FontWeight.w500
+                        : FontWeight.normal,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               if (conversation.lastMessageHasAttachment)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 4.0),
                   child: Icon(
                     Icons.attachment,
                     size: 16,
@@ -325,11 +318,11 @@ class _MessagingScreenState extends State<MessagingScreen> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Filter Messages'),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               // TODO: Implement filters
-              const Text('Filter options will be implemented here'),
+              Text('Filter options will be implemented here'),
             ],
           ),
           actions: [
@@ -395,8 +388,8 @@ class _MessagingScreenState extends State<MessagingScreen> {
     final lowerCaseQuery = query.toLowerCase();
     return conversations.where((conversation) {
       return conversation.participantName.toLowerCase().contains(
-            lowerCaseQuery,
-          ) ||
+                lowerCaseQuery,
+              ) ||
           conversation.lastMessageText.toLowerCase().contains(lowerCaseQuery);
     }).toList();
   }

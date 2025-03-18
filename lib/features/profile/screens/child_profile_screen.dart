@@ -71,34 +71,33 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
           ),
         ],
       ),
-      body:
-          profileProvider.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Child profile header
-                    _buildChildHeader(child!),
+      body: profileProvider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Child profile header
+                  _buildChildHeader(child!),
 
-                    const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                    // Child details
-                    _buildChildDetails(child!),
+                  // Child details
+                  _buildChildDetails(child!),
 
-                    const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                    // Child schedule
-                    _buildChildSchedule(child!),
+                  // Child schedule
+                  _buildChildSchedule(child!),
 
-                    const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                    // Child notes
-                    _buildChildNotes(child!),
-                  ],
-                ),
+                  // Child notes
+                  _buildChildNotes(child!),
+                ],
               ),
+            ),
     );
   }
 
@@ -130,7 +129,8 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
           // Child age
           Text(
             '${child.age} years old',
-            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+            style:
+                const TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
 
           const SizedBox(height: 16),
@@ -147,9 +147,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
           'Details',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-
         const SizedBox(height: 12),
-
         AppCard(
           child: Column(
             children: [
@@ -216,9 +214,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
           'Weekly Schedule',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-
         const SizedBox(height: 12),
-
         if (child.schedule != null && child.schedule!.isNotEmpty)
           AppCard(
             child: Column(
@@ -266,9 +262,9 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
             ),
           )
         else
-          AppCard(
+          const AppCard(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
                   'No schedule available',
@@ -289,19 +285,16 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
           'Notes',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-
         const SizedBox(height: 12),
-
         AppCard(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child:
-                child.notes != null && child.notes!.isNotEmpty
-                    ? Text(child.notes!)
-                    : Text(
-                      'No notes available',
-                      style: TextStyle(color: AppColors.textSecondary),
-                    ),
+            child: child.notes != null && child.notes!.isNotEmpty
+                ? Text(child.notes!)
+                : const Text(
+                    'No notes available',
+                    style: TextStyle(color: AppColors.textSecondary),
+                  ),
           ),
         ),
       ],
@@ -326,7 +319,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 14,
                   ),

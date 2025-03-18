@@ -40,16 +40,15 @@ class AppCard extends StatelessWidget {
       borderRadius: borderRadiusValue,
       border: borderColor != null ? Border.all(color: borderColor!) : null,
       gradient: gradient,
-      boxShadow:
-          hasShadow
-              ? [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: elevation * 2,
-                  offset: Offset(0, elevation),
-                ),
-              ]
-              : null,
+      boxShadow: hasShadow
+          ? [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: elevation * 2,
+                offset: Offset(0, elevation),
+              ),
+            ]
+          : null,
     );
 
     final Widget cardContent = Container(
@@ -60,17 +59,16 @@ class AppCard extends StatelessWidget {
 
     return Container(
       margin: margin,
-      child:
-          onTap != null
-              ? Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: onTap,
-                  borderRadius: borderRadiusValue,
-                  child: cardContent,
-                ),
-              )
-              : cardContent,
+      child: onTap != null
+          ? Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: borderRadiusValue,
+                child: cardContent,
+              ),
+            )
+          : cardContent,
     );
   }
 }
@@ -117,7 +115,8 @@ class AppSectionCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: headerColor ?? AppColors.primary.withOpacity(0.05),
               borderRadius: BorderRadius.only(
@@ -141,9 +140,9 @@ class AppSectionCard extends StatelessWidget {
                 else if (onMoreTap != null)
                   TextButton(
                     onPressed: onMoreTap,
-                    child: Text(
+                    child: const Text(
                       'See All',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w500,
                       ),
@@ -152,7 +151,7 @@ class AppSectionCard extends StatelessWidget {
               ],
             ),
           ),
-          if (hasDivider) Divider(height: 1, thickness: 1),
+          if (hasDivider) const Divider(height: 1, thickness: 1),
           Padding(padding: padding, child: child),
         ],
       ),
@@ -189,8 +188,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color cardColor =
-        backgroundColor ??
+    final Color cardColor = backgroundColor ??
         (isActive ? AppColors.primary.withOpacity(0.1) : AppColors.surface);
 
     final Color actualIconColor =
@@ -200,7 +198,7 @@ class EventCard extends StatelessWidget {
       backgroundColor: cardColor,
       borderRadius: 12.0,
       elevation: 1.0,
-      padding: EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0),
       onTap: onTap,
       child: Row(
         children: [
@@ -213,7 +211,7 @@ class EventCard extends StatelessWidget {
             ),
             child: Icon(icon, color: actualIconColor, size: 24.0),
           ),
-          SizedBox(width: 12.0),
+          const SizedBox(width: 12.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,7 +225,7 @@ class EventCard extends StatelessWidget {
                   ),
                 ),
                 if (subtitle != null) ...[
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   Text(
                     subtitle!,
                     style: const TextStyle(
@@ -237,15 +235,15 @@ class EventCard extends StatelessWidget {
                   ),
                 ],
                 if (time != null) ...[
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.access_time,
                         size: 14.0,
                         color: AppColors.textSecondary,
                       ),
-                      SizedBox(width: 4.0),
+                      const SizedBox(width: 4.0),
                       Text(
                         time!,
                         style: const TextStyle(

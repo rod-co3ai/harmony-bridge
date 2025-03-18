@@ -36,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextButton(
                   onPressed: () => _navigateToLogin(),
-                  child: Text(
+                  child: const Text(
                     'Skip',
                     style: TextStyle(
                       color: AppColors.textSecondary,
@@ -106,16 +106,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // Back button (hidden on first page)
                   _currentPage > 0
                       ? AppButton(
-                        onPressed: () {
-                          _pageController.previousPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                        text: 'Back',
-                        type: AppButtonType.outlined,
-                        width: 120,
-                      )
+                          onPressed: () {
+                            _pageController.previousPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          },
+                          text: 'Back',
+                          type: AppButtonType.outlined,
+                          width: 120,
+                        )
                       : const SizedBox(width: 120),
 
                   // Next/Get Started button
@@ -155,23 +155,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           // Image placeholder (will be replaced with actual images)
           Container(
-                width: imageSize,
-                height: imageSize,
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(imageSize / 2),
-                ),
-                child: Center(
-                  child: Icon(
-                    _getIconForPage(_currentPage),
-                    size: imageSize / 2,
-                    color: AppColors.primary.withAlpha(150),
-                  ),
-                ),
-              )
-              .animate()
-              .fadeIn(duration: 600.ms)
-              .slideY(
+            width: imageSize,
+            height: imageSize,
+            decoration: BoxDecoration(
+              color: AppColors.background,
+              borderRadius: BorderRadius.circular(imageSize / 2),
+            ),
+            child: Center(
+              child: Icon(
+                _getIconForPage(_currentPage),
+                size: imageSize / 2,
+                color: AppColors.primary.withAlpha(150),
+              ),
+            ),
+          ).animate().fadeIn(duration: 600.ms).slideY(
                 begin: 0.2,
                 end: 0,
                 duration: 600.ms,
@@ -197,7 +194,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               color: AppColors.textSecondary,
               height: 1.5,

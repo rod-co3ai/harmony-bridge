@@ -27,8 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Load profile data when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final userId =
-          authProvider.currentUser?.id ??
+      final userId = authProvider.currentUser?.id ??
           UserModel.currentUserId ??
           'default_user_id';
       Provider.of<ProfileProvider>(
@@ -58,55 +57,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-      body:
-          profileProvider.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : RefreshIndicator(
-                onRefresh: () async {
-                  final authProvider = Provider.of<AuthProvider>(
-                    context,
-                    listen: false,
-                  );
-                  final userId =
-                      authProvider.currentUser?.id ??
-                      UserModel.currentUserId ??
-                      'default_user_id';
-                  await Provider.of<ProfileProvider>(
-                    context,
-                    listen: false,
-                  ).loadUserProfile(userId);
-                },
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // User profile section
-                      _buildUserProfileSection(user),
+      body: profileProvider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: () async {
+                final authProvider = Provider.of<AuthProvider>(
+                  context,
+                  listen: false,
+                );
+                final userId = authProvider.currentUser?.id ??
+                    UserModel.currentUserId ??
+                    'default_user_id';
+                await Provider.of<ProfileProvider>(
+                  context,
+                  listen: false,
+                ).loadUserProfile(userId);
+              },
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // User profile section
+                    _buildUserProfileSection(user),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      // Children section
-                      _buildChildrenSection(children),
+                    // Children section
+                    _buildChildrenSection(children),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      // Account section
-                      _buildAccountSection(),
+                    // Account section
+                    _buildAccountSection(),
 
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                      // Sign out button
-                      AppButton(
-                        onPressed: () => _handleSignOut(authProvider),
-                        text: 'Sign Out',
-                        type: AppButtonType.outlined,
-                        icon: Icons.logout,
-                      ),
-                    ],
-                  ),
+                    // Sign out button
+                    AppButton(
+                      onPressed: () => _handleSignOut(authProvider),
+                      text: 'Sign Out',
+                      type: AppButtonType.outlined,
+                      icon: Icons.logout,
+                    ),
+                  ],
                 ),
               ),
+            ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _currentNavIndex,
         onTap: _handleNavigation,
@@ -146,7 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // User email
           Text(
             user.email,
-            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+            style:
+                const TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
 
           const SizedBox(height: 16),
@@ -188,9 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-
         const SizedBox(height: 12),
-
         if (children.isEmpty)
           AppCard(
             child: Padding(
@@ -204,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: AppColors.textSecondary.withAlpha(100),
                     ),
                     const SizedBox(height: 16),
-                    Text(
+                    const Text(
                       'No children added yet',
                       style: TextStyle(
                         fontSize: 16,
@@ -288,9 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'Account',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-
         const SizedBox(height: 12),
-
         AppCard(
           child: Column(
             children: [
