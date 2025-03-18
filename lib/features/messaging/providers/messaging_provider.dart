@@ -27,10 +27,9 @@ class MessagingProvider extends ChangeNotifier {
 
     // Group messages by conversation participants
     for (final message in _messages) {
-      final otherUserId =
-          message.senderId == UserModel.currentUserId
-              ? message.receiverId
-              : message.senderId;
+      final otherUserId = message.senderId == UserModel.currentUserId
+          ? message.receiverId
+          : message.senderId;
 
       if (otherUserId == null) continue;
 
@@ -63,12 +62,12 @@ class MessagingProvider extends ChangeNotifier {
     }
 
     // Convert to list and sort by last message timestamp
-    final mapList =
-        conversationsMap.values.toList()..sort((a, b) {
-          final aTime = (a['lastMessage'] as MessageModel).timestamp;
-          final bTime = (b['lastMessage'] as MessageModel).timestamp;
-          return bTime.compareTo(aTime); // Sort by most recent first
-        });
+    final mapList = conversationsMap.values.toList()
+      ..sort((a, b) {
+        final aTime = (a['lastMessage'] as MessageModel).timestamp;
+        final bTime = (b['lastMessage'] as MessageModel).timestamp;
+        return bTime.compareTo(aTime); // Sort by most recent first
+      });
 
     // Convert Map<String, dynamic> to ConversationModel
     return mapList.map((map) {
@@ -83,8 +82,7 @@ class MessagingProvider extends ChangeNotifier {
         lastMessageText: lastMessage.content,
         lastMessageSenderId: lastMessage.senderId,
         lastMessageTime: lastMessage.timestamp,
-        lastMessageHasAttachment:
-            lastMessage.attachments != null &&
+        lastMessageHasAttachment: lastMessage.attachments != null &&
             lastMessage.attachments!.isNotEmpty,
         unreadCount: map['unreadCount'] as int,
         isOnline: participant?.isOnline,
@@ -96,15 +94,14 @@ class MessagingProvider extends ChangeNotifier {
   UserModel? getParticipant(String participantId) {
     return _contacts.firstWhere(
       (contact) => contact.id == participantId,
-      orElse:
-          () => UserModel(
-            id: participantId,
-            name: 'Unknown User',
-            email: 'unknown@example.com',
-            phoneNumber: '',
-            role: UserRole.parent,
-            createdAt: DateTime.now(),
-          ),
+      orElse: () => UserModel(
+        id: participantId,
+        name: 'Unknown User',
+        email: 'unknown@example.com',
+        phoneNumber: '',
+        role: UserRole.parent,
+        createdAt: DateTime.now(),
+      ),
     );
   }
 

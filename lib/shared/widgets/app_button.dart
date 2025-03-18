@@ -100,8 +100,8 @@ class AppButton extends StatelessWidget {
               isFullWidth ? double.infinity : (width ?? 0),
               height,
             ),
-            disabledBackgroundColor: bgColor.withOpacity(0.6),
-            disabledForegroundColor: txtColor.withOpacity(0.6),
+            disabledBackgroundColor: bgColor.withAlpha((0.6 * 255).round()),
+            disabledForegroundColor: txtColor.withAlpha((0.6 * 255).round()),
           ),
           child: buttonContent,
         );

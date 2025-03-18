@@ -43,7 +43,7 @@ class AppCard extends StatelessWidget {
       boxShadow: hasShadow
           ? [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withAlpha((0.1 * 255).round()),
                 blurRadius: elevation * 2,
                 offset: Offset(0, elevation),
               ),
@@ -118,7 +118,8 @@ class AppSectionCard extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             decoration: BoxDecoration(
-              color: headerColor ?? AppColors.primary.withOpacity(0.05),
+              color: headerColor ??
+                  AppColors.primary.withAlpha((0.05 * 255).round()),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(borderRadius),
                 topRight: Radius.circular(borderRadius),
@@ -189,7 +190,9 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color cardColor = backgroundColor ??
-        (isActive ? AppColors.primary.withOpacity(0.1) : AppColors.surface);
+        (isActive
+            ? AppColors.primary.withAlpha((0.1 * 255).round())
+            : AppColors.surface);
 
     final Color actualIconColor =
         iconColor ?? (isActive ? AppColors.primary : AppColors.textSecondary);
@@ -206,7 +209,7 @@ class EventCard extends StatelessWidget {
             width: 48.0,
             height: 48.0,
             decoration: BoxDecoration(
-              color: actualIconColor.withOpacity(0.1),
+              color: actualIconColor.withAlpha((0.1 * 255).round()),
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Icon(icon, color: actualIconColor, size: 24.0),

@@ -36,9 +36,9 @@ class EventModel {
     this.reminders,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) : id = id ?? const Uuid().v4(),
-       createdAt = createdAt ?? DateTime.now(),
-       updatedAt = updatedAt ?? DateTime.now();
+  })  : id = id ?? const Uuid().v4(),
+        createdAt = createdAt ?? DateTime.now(),
+        updatedAt = updatedAt ?? DateTime.now();
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
@@ -51,25 +51,22 @@ class EventModel {
         (type) => type.toString() == 'EventType.${json['type']}',
         orElse: () => EventType.general,
       ),
-      recurrence:
-          json['recurrence'] != null
-              ? EventRecurrence.fromJson(json['recurrence'])
-              : null,
+      recurrence: json['recurrence'] != null
+          ? EventRecurrence.fromJson(json['recurrence'])
+          : null,
       creatorId: json['creator_id'],
       participantIds: List<String>.from(json['participant_ids'] ?? []),
-      childrenIds:
-          json['children_ids'] != null
-              ? List<String>.from(json['children_ids'])
-              : null,
+      childrenIds: json['children_ids'] != null
+          ? List<String>.from(json['children_ids'])
+          : null,
       location: json['location'],
       metadata: json['metadata'],
       isAllDay: json['is_all_day'] ?? false,
-      reminders:
-          json['reminders'] != null
-              ? (json['reminders'] as List)
-                  .map((reminder) => Reminder.fromJson(reminder))
-                  .toList()
-              : null,
+      reminders: json['reminders'] != null
+          ? (json['reminders'] as List)
+              .map((reminder) => Reminder.fromJson(reminder))
+              .toList()
+          : null,
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
@@ -177,10 +174,9 @@ class EventRecurrence {
         orElse: () => RecurrenceType.none,
       ),
       interval: json['interval'],
-      daysOfWeek:
-          json['days_of_week'] != null
-              ? List<int>.from(json['days_of_week'])
-              : null,
+      daysOfWeek: json['days_of_week'] != null
+          ? List<int>.from(json['days_of_week'])
+          : null,
       dayOfMonth: json['day_of_month'],
       monthOfYear: json['month_of_year'],
       until: json['until'] != null ? DateTime.parse(json['until']) : null,

@@ -62,14 +62,13 @@ class ChildModel {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       notes: json['notes'],
-      schedule:
-          json['schedule'] != null
-              ? Map<String, List<String>>.from(
-                json['schedule'].map(
-                  (key, value) => MapEntry(key, List<String>.from(value)),
-                ),
-              )
-              : null,
+      schedule: json['schedule'] != null
+          ? Map<String, List<String>>.from(
+              json['schedule'].map(
+                (key, value) => MapEntry(key, List<String>.from(value)),
+              ),
+            )
+          : null,
       medicalInfo: json['medical_info'],
       schoolInfo: json['school_info'],
     );

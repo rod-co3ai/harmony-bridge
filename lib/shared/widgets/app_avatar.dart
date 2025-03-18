@@ -57,11 +57,10 @@ class AppAvatar extends StatelessWidget {
               color: avatarColor,
               child: Center(
                 child: CircularProgressIndicator(
-                  value:
-                      loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
                   strokeWidth: 2.0,
                   color: Colors.white,
                 ),
@@ -81,13 +80,12 @@ class AppAvatar extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border:
-            borderWidth > 0
-                ? Border.all(
-                  color: borderColor ?? AppColors.primary,
-                  width: borderWidth,
-                )
-                : null,
+        border: borderWidth > 0
+            ? Border.all(
+                color: borderColor ?? AppColors.primary,
+                width: borderWidth,
+              )
+            : null,
       ),
       child: avatarContent,
     );

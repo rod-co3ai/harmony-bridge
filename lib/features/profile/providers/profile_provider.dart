@@ -47,15 +47,14 @@ class ProfileProvider extends ChangeNotifier {
       // Check if the child exists in our list
       final existingChild = _children.firstWhere(
         (child) => child.id == childId,
-        orElse:
-            () => ChildModel(
-              id: childId,
-              name: 'Unknown Child',
-              dateOfBirth: DateTime.now(),
-              parentIds: [],
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
+        orElse: () => ChildModel(
+          id: childId,
+          name: 'Unknown Child',
+          dateOfBirth: DateTime.now(),
+          parentIds: [],
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
       );
 
       // For now, we'll just add more detailed mock data

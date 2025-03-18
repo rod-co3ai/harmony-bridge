@@ -26,7 +26,8 @@ class AppSearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(13), // 0.05 opacity = 13 alpha (0.05 * 255)
+            color: Colors.black
+                .withAlpha(13), // 0.05 opacity = 13 alpha (0.05 * 255)
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -39,20 +40,19 @@ class AppSearchField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey[400]),
           prefixIcon: const Icon(Icons.search, color: AppColors.primary),
-          suffixIcon:
-              controller.text.isNotEmpty
-                  ? IconButton(
-                    icon: const Icon(Icons.clear, color: AppColors.primary),
-                    onPressed: () {
-                      controller.clear();
-                      if (onClear != null) {
-                        onClear!();
-                      } else {
-                        onChanged('');
-                      }
-                    },
-                  )
-                  : null,
+          suffixIcon: controller.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear, color: AppColors.primary),
+                  onPressed: () {
+                    controller.clear();
+                    if (onClear != null) {
+                      onClear!();
+                    } else {
+                      onChanged('');
+                    }
+                  },
+                )
+              : null,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
         ),
