@@ -17,9 +17,13 @@ jobs:
         with:
           flutter-version: '3.19.0'
           channel: 'stable'
+          cache: true
       
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          flutter clean
+          flutter pub get
+          flutter doctor -v
       
       - name: Enable web
         run: flutter config --enable-web
