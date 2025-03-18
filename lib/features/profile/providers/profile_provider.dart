@@ -8,55 +8,56 @@ class ProfileProvider extends ChangeNotifier {
   String? _error;
   UserModel? _userProfile;
   List<ChildModel> _children = [];
-  Map<String, ChildModel> _childDetails = {};
-  
+  final Map<String, ChildModel> _childDetails = {};
+
   // Getters
   bool get isLoading => _isLoading;
   String? get error => _error;
   UserModel? get userProfile => _userProfile;
   List<ChildModel> get children => _children;
-  
+
   /// Get a child by ID
   ChildModel? getChildById(String childId) {
     // First check if we have detailed data for this child
     if (_childDetails.containsKey(childId)) {
       return _childDetails[childId];
     }
-    
+
     // Otherwise check the children list
     try {
-      final child = _children.firstWhere(
-        (child) => child.id == childId,
-      );
+      final child = _children.firstWhere((child) => child.id == childId);
       return child;
     } catch (e) {
       // Return a placeholder child if not found
       return null;
     }
   }
-  
+
   /// Load detailed information for a specific child
   Future<void> loadChildDetails(String childId) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual data fetching from Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Check if the child exists in our list
       final existingChild = _children.firstWhere(
         (child) => child.id == childId,
-        orElse: () => ChildModel(
-          id: childId,
-          name: 'Unknown Child',
-          dateOfBirth: DateTime.now(),
-          parentIds: [],
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
+        orElse:
+            () => ChildModel(
+              id: childId,
+              name: 'Unknown Child',
+              dateOfBirth: DateTime.now(),
+              parentIds: [],
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
       );
-      
+
       // For now, we'll just add more detailed mock data
       final detailedChild = existingChild.copyWith(
         schedule: _getMockScheduleForChild(childId),
@@ -64,10 +65,10 @@ class ProfileProvider extends ChangeNotifier {
         schoolInfo: 'Attends Springfield Elementary School',
         notes: existingChild.notes ?? 'No notes available',
       );
-      
+
       // Store in the detailed map
       _childDetails[childId] = detailedChild;
-      
+
       _setLoading(false);
       notifyListeners();
     } catch (e) {
@@ -75,16 +76,18 @@ class ProfileProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
-  
+
   /// Load user profile
   Future<void> loadUserProfile(String userId) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual data fetching from Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Mock data - will be replaced with actual implementation
       _userProfile = UserModel(
         id: userId,
@@ -97,9 +100,9 @@ class ProfileProvider extends ChangeNotifier {
         createdAt: DateTime.now().subtract(const Duration(days: 180)),
         updatedAt: DateTime.now(),
       );
-      
+
       _children = _getMockChildren();
-      
+
       _setLoading(false);
       notifyListeners();
     } catch (e) {
@@ -107,19 +110,21 @@ class ProfileProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
-  
+
   /// Update user profile
   Future<bool> updateUserProfile(UserModel updatedProfile) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual profile update with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Update local profile
       _userProfile = updatedProfile;
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -129,19 +134,21 @@ class ProfileProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Add a child
   Future<bool> addChild(ChildModel child) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual child addition with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Add to local list
       _children.add(child);
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -151,16 +158,18 @@ class ProfileProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Update a child
   Future<bool> updateChild(ChildModel updatedChild) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual child update with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Update in local list
       final index = _children.indexWhere((c) => c.id == updatedChild.id);
       if (index != -1) {
@@ -168,12 +177,12 @@ class ProfileProvider extends ChangeNotifier {
       } else {
         throw Exception('Child not found');
       }
-      
+
       // Also update in details map if it exists
       if (_childDetails.containsKey(updatedChild.id)) {
         _childDetails[updatedChild.id] = updatedChild;
       }
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -183,22 +192,24 @@ class ProfileProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Delete a child
   Future<bool> deleteChild(String childId) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual child deletion with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Remove from local list
       _children.removeWhere((c) => c.id == childId);
-      
+
       // Remove from details map
       _childDetails.remove(childId);
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -208,22 +219,24 @@ class ProfileProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Update user settings
   Future<bool> updateUserSettings(Map<String, dynamic> settings) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual settings update with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Update local profile with settings
       if (_userProfile != null) {
         // In a real implementation, we would update specific settings fields
         // For now, we'll just simulate success
       }
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -233,7 +246,7 @@ class ProfileProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   // Helper methods
   void _setLoading(bool loading) {
     _isLoading = loading;
@@ -249,7 +262,7 @@ class ProfileProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
   }
-  
+
   // Mock data generators
   List<ChildModel> _getMockChildren() {
     final now = DateTime.now();
@@ -282,7 +295,7 @@ class ProfileProvider extends ChangeNotifier {
       ),
     ];
   }
-  
+
   // Mock schedule data for a child
   Map<String, List<String>> _getMockScheduleForChild(String childId) {
     if (childId == 'child-1') {

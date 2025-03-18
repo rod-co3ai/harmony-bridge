@@ -38,7 +38,7 @@ class ChildModel {
   int get age {
     final now = DateTime.now();
     int age = now.year - dateOfBirth.year;
-    if (now.month < dateOfBirth.month || 
+    if (now.month < dateOfBirth.month ||
         (now.month == dateOfBirth.month && now.day < dateOfBirth.day)) {
       age--;
     }
@@ -62,14 +62,14 @@ class ChildModel {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       notes: json['notes'],
-      schedule: json['schedule'] != null
-          ? Map<String, List<String>>.from(
-              json['schedule'].map((key, value) => MapEntry(
-                    key,
-                    List<String>.from(value),
-                  )),
-            )
-          : null,
+      schedule:
+          json['schedule'] != null
+              ? Map<String, List<String>>.from(
+                json['schedule'].map(
+                  (key, value) => MapEntry(key, List<String>.from(value)),
+                ),
+              )
+              : null,
       medicalInfo: json['medical_info'],
       schoolInfo: json['school_info'],
     );

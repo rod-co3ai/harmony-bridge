@@ -9,24 +9,24 @@ class CalendarProvider extends ChangeNotifier {
   DateTime _selectedDate = DateTime.now();
   List<EventModel> _events = [];
   List<ChildModel> _children = [];
-  
+
   // Getters
   bool get isLoading => _isLoading;
   String? get error => _error;
   DateTime get selectedDate => _selectedDate;
   List<EventModel> get events => _events;
   List<ChildModel> get children => _children;
-  
+
   // Get events for a specific date
   List<EventModel> getEventsForDate(DateTime date) {
     return _events.where((event) {
       final eventDate = event.startTime;
-      return eventDate.year == date.year && 
-             eventDate.month == date.month && 
-             eventDate.day == date.day;
+      return eventDate.year == date.year &&
+          eventDate.month == date.month &&
+          eventDate.day == date.day;
     }).toList();
   }
-  
+
   // Get events for a specific month
   List<EventModel> getEventsForMonth(DateTime month) {
     return _events.where((event) {
@@ -34,38 +34,40 @@ class CalendarProvider extends ChangeNotifier {
       return eventDate.year == month.year && eventDate.month == month.month;
     }).toList();
   }
-  
+
   // Get events for a specific child
   List<EventModel> getEventsForChild(String childId) {
-    return _events.where((event) => 
-      event.childrenIds?.contains(childId) ?? false
-    ).toList();
+    return _events
+        .where((event) => event.childrenIds?.contains(childId) ?? false)
+        .toList();
   }
-  
+
   /// Set selected date
   void setSelectedDate(DateTime date) {
     _selectedDate = date;
     notifyListeners();
   }
-  
+
   /// Load events
   Future<void> loadEvents({DateTime? startDate, DateTime? endDate}) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // Default date range is current month if not specified
       final now = DateTime.now();
       startDate ??= DateTime(now.year, now.month, 1);
       endDate ??= DateTime(now.year, now.month + 1, 0);
-      
+
       // TODO: Implement actual data fetching from Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Mock data - will be replaced with actual implementation
       _events = _getMockEvents();
       _children = _getMockChildren();
-      
+
       _setLoading(false);
       notifyListeners();
     } catch (e) {
@@ -73,19 +75,21 @@ class CalendarProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
-  
+
   /// Create a new event
   Future<bool> createEvent(EventModel event) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual event creation with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Add to local list for now
       _events.add(event);
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -95,16 +99,18 @@ class CalendarProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Update an existing event
   Future<bool> updateEvent(EventModel updatedEvent) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual event update with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Update in local list for now
       final index = _events.indexWhere((e) => e.id == updatedEvent.id);
       if (index != -1) {
@@ -112,7 +118,7 @@ class CalendarProvider extends ChangeNotifier {
       } else {
         throw Exception('Event not found');
       }
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -122,19 +128,21 @@ class CalendarProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Delete an event
   Future<bool> deleteEvent(String eventId) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual event deletion with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Remove from local list for now
       _events.removeWhere((e) => e.id == eventId);
-      
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -144,7 +152,7 @@ class CalendarProvider extends ChangeNotifier {
       return false;
     }
   }
-  
+
   // Helper methods
   void _setLoading(bool loading) {
     _isLoading = loading;
@@ -160,7 +168,7 @@ class CalendarProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
   }
-  
+
   // Mock data generators
   List<EventModel> _getMockEvents() {
     final now = DateTime.now();
@@ -175,7 +183,7 @@ class CalendarProvider extends ChangeNotifier {
         childrenIds: ['child-1'],
         isAllDay: false,
         reminders: [
-          Reminder(minutesBefore: 30, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 30, method: ReminderMethod.notification),
         ],
         type: EventType.pickup,
         creatorId: 'user-123',
@@ -195,7 +203,7 @@ class CalendarProvider extends ChangeNotifier {
         recurrence: null,
         reminders: [
           Reminder(minutesBefore: 60, method: ReminderMethod.notification),
-          Reminder(minutesBefore: 1440, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 1440, method: ReminderMethod.notification),
         ],
         type: EventType.medical,
         creatorId: 'user-456',
@@ -212,12 +220,9 @@ class CalendarProvider extends ChangeNotifier {
         location: 'Family Restaurant',
         childrenIds: ['child-1', 'child-2'],
         isAllDay: false,
-        recurrence: EventRecurrence(
-          type: RecurrenceType.weekly,
-          interval: 1,
-        ),
+        recurrence: EventRecurrence(type: RecurrenceType.weekly, interval: 1),
         reminders: [
-          Reminder(minutesBefore: 120, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 120, method: ReminderMethod.notification),
         ],
         type: EventType.general,
         creatorId: 'user-123',
@@ -237,7 +242,7 @@ class CalendarProvider extends ChangeNotifier {
         recurrence: null,
         reminders: [
           Reminder(minutesBefore: 1440, method: ReminderMethod.notification),
-          Reminder(minutesBefore: 60, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 60, method: ReminderMethod.notification),
         ],
         type: EventType.meeting,
         creatorId: 'user-123',
@@ -260,7 +265,7 @@ class CalendarProvider extends ChangeNotifier {
           until: DateTime(now.year, now.month + 3, now.day),
         ),
         reminders: [
-          Reminder(minutesBefore: 60, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 60, method: ReminderMethod.notification),
         ],
         type: EventType.activity,
         creatorId: 'user-456',
@@ -270,7 +275,7 @@ class CalendarProvider extends ChangeNotifier {
       ),
     ];
   }
-  
+
   List<ChildModel> _getMockChildren() {
     final now = DateTime.now();
     return [

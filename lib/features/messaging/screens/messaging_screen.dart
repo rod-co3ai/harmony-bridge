@@ -9,7 +9,7 @@ import '../../../shared/widgets/app_search_field.dart';
 import '../providers/messaging_provider.dart';
 
 class MessagingScreen extends StatefulWidget {
-  const MessagingScreen({Key? key}) : super(key: key);
+  const MessagingScreen({super.key});
 
   @override
   State<MessagingScreen> createState() => _MessagingScreenState();
@@ -19,22 +19,25 @@ class _MessagingScreenState extends State<MessagingScreen> {
   int _currentNavIndex = 2;
   final _searchController = TextEditingController();
   String _searchQuery = '';
-  
+
   @override
   void initState() {
     super.initState();
     // Load conversations when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MessagingProvider>(context, listen: false).loadConversations();
+      Provider.of<MessagingProvider>(
+        context,
+        listen: false,
+      ).loadConversations();
     });
-    
+
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text;
       });
     });
   }
-  
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -48,7 +51,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
       messagingProvider.conversations,
       _searchQuery,
     );
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Messages'),
@@ -82,12 +85,13 @@ class _MessagingScreenState extends State<MessagingScreen> {
               },
             ),
           ),
-          
+
           // Conversations list
           Expanded(
-            child: messagingProvider.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : filteredConversations.isEmpty
+            child:
+                messagingProvider.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : filteredConversations.isEmpty
                     ? _buildEmptyState()
                     : _buildConversationsList(filteredConversations),
           ),
@@ -106,7 +110,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
       ),
     );
   }
-  
+
   Widget _buildEmptyState() {
     return Center(
       child: Column(
@@ -122,10 +126,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
             _searchQuery.isEmpty
                 ? 'No conversations yet'
                 : 'No conversations matching "$_searchQuery"',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
           if (_searchQuery.isNotEmpty)
@@ -142,14 +143,20 @@ class _MessagingScreenState extends State<MessagingScreen> {
       ),
     );
   }
-  
+
   Widget _buildConversationsList(List<ConversationModel> conversations) {
     return RefreshIndicator(
-      onRefresh: () => Provider.of<MessagingProvider>(context, listen: false).refreshConversations(),
+      onRefresh:
+          () =>
+              Provider.of<MessagingProvider>(
+                context,
+                listen: false,
+              ).refreshConversations(),
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         itemCount: conversations.length,
-        separatorBuilder: (context, index) => const Divider(height: 1, indent: 72),
+        separatorBuilder:
+            (context, index) => const Divider(height: 1, indent: 72),
         itemBuilder: (context, index) {
           final conversation = conversations[index];
           return _buildConversationTile(conversation);
@@ -157,12 +164,15 @@ class _MessagingScreenState extends State<MessagingScreen> {
       ),
     );
   }
-  
+
   Widget _buildConversationTile(ConversationModel conversation) {
     final formattedTime = _formatMessageTime(conversation.lastMessageTime);
-    
+
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 8.0,
+      ),
       leading: Stack(
         children: [
           AppAvatar(
@@ -181,10 +191,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 2),
                 ),
-                constraints: const BoxConstraints(
-                  minWidth: 18,
-                  minHeight: 18,
-                ),
+                constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
                 child: Text(
                   conversation.unreadCount.toString(),
                   style: const TextStyle(
@@ -205,9 +212,10 @@ class _MessagingScreenState extends State<MessagingScreen> {
             child: Text(
               conversation.participantName,
               style: TextStyle(
-                fontWeight: conversation.unreadCount > 0
-                    ? FontWeight.bold
-                    : FontWeight.normal,
+                fontWeight:
+                    conversation.unreadCount > 0
+                        ? FontWeight.bold
+                        : FontWeight.normal,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -216,12 +224,14 @@ class _MessagingScreenState extends State<MessagingScreen> {
             formattedTime,
             style: TextStyle(
               fontSize: 12,
-              color: conversation.unreadCount > 0
-                  ? AppColors.primary
-                  : AppColors.textSecondary,
-              fontWeight: conversation.unreadCount > 0
-                  ? FontWeight.bold
-                  : FontWeight.normal,
+              color:
+                  conversation.unreadCount > 0
+                      ? AppColors.primary
+                      : AppColors.textSecondary,
+              fontWeight:
+                  conversation.unreadCount > 0
+                      ? FontWeight.bold
+                      : FontWeight.normal,
             ),
           ),
         ],
@@ -251,12 +261,14 @@ class _MessagingScreenState extends State<MessagingScreen> {
                 child: Text(
                   conversation.lastMessageText,
                   style: TextStyle(
-                    color: conversation.unreadCount > 0
-                        ? AppColors.textPrimary
-                        : AppColors.textSecondary,
-                    fontWeight: conversation.unreadCount > 0
-                        ? FontWeight.w500
-                        : FontWeight.normal,
+                    color:
+                        conversation.unreadCount > 0
+                            ? AppColors.textPrimary
+                            : AppColors.textSecondary,
+                    fontWeight:
+                        conversation.unreadCount > 0
+                            ? FontWeight.w500
+                            : FontWeight.normal,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -284,14 +296,14 @@ class _MessagingScreenState extends State<MessagingScreen> {
       },
     );
   }
-  
+
   void _handleNavigation(int index) {
     if (index == _currentNavIndex) return;
-    
+
     setState(() {
       _currentNavIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Dashboard
         Navigator.pushReplacementNamed(context, AppRouter.dashboard);
@@ -306,7 +318,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
         break;
     }
   }
-  
+
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -339,7 +351,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
       },
     );
   }
-  
+
   void _showNewMessageDialog(BuildContext context) {
     // TODO: Implement new message dialog with contact selection
     showDialog(
@@ -349,9 +361,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
           title: const Text('New Message'),
           content: const Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Contact selection will be implemented here'),
-            ],
+            children: [Text('Contact selection will be implemented here')],
           ),
           actions: [
             TextButton(
@@ -372,7 +382,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
       },
     );
   }
-  
+
   // Helper methods
   List<ConversationModel> _filterConversations(
     List<ConversationModel> conversations,
@@ -381,23 +391,26 @@ class _MessagingScreenState extends State<MessagingScreen> {
     if (query.isEmpty) {
       return conversations;
     }
-    
+
     final lowerCaseQuery = query.toLowerCase();
     return conversations.where((conversation) {
-      return conversation.participantName.toLowerCase().contains(lowerCaseQuery) ||
-             conversation.lastMessageText.toLowerCase().contains(lowerCaseQuery);
+      return conversation.participantName.toLowerCase().contains(
+            lowerCaseQuery,
+          ) ||
+          conversation.lastMessageText.toLowerCase().contains(lowerCaseQuery);
     }).toList();
   }
-  
+
   String _formatMessageTime(DateTime time) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
     final messageDate = DateTime(time.year, time.month, time.day);
-    
+
     if (messageDate == today) {
       // Format as time (e.g., "3:30 PM")
-      final hour = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+      final hour =
+          time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
       final minute = time.minute.toString().padLeft(2, '0');
       final period = time.hour >= 12 ? 'PM' : 'AM';
       return '$hour:$minute $period';
@@ -411,35 +424,56 @@ class _MessagingScreenState extends State<MessagingScreen> {
       return '${_getMonth(time)} ${time.day}';
     }
   }
-  
+
   String _getDayOfWeek(DateTime date) {
     switch (date.weekday) {
-      case 1: return 'Mon';
-      case 2: return 'Tue';
-      case 3: return 'Wed';
-      case 4: return 'Thu';
-      case 5: return 'Fri';
-      case 6: return 'Sat';
-      case 7: return 'Sun';
-      default: return '';
+      case 1:
+        return 'Mon';
+      case 2:
+        return 'Tue';
+      case 3:
+        return 'Wed';
+      case 4:
+        return 'Thu';
+      case 5:
+        return 'Fri';
+      case 6:
+        return 'Sat';
+      case 7:
+        return 'Sun';
+      default:
+        return '';
     }
   }
-  
+
   String _getMonth(DateTime date) {
     switch (date.month) {
-      case 1: return 'Jan';
-      case 2: return 'Feb';
-      case 3: return 'Mar';
-      case 4: return 'Apr';
-      case 5: return 'May';
-      case 6: return 'Jun';
-      case 7: return 'Jul';
-      case 8: return 'Aug';
-      case 9: return 'Sep';
-      case 10: return 'Oct';
-      case 11: return 'Nov';
-      case 12: return 'Dec';
-      default: return '';
+      case 1:
+        return 'Jan';
+      case 2:
+        return 'Feb';
+      case 3:
+        return 'Mar';
+      case 4:
+        return 'Apr';
+      case 5:
+        return 'May';
+      case 6:
+        return 'Jun';
+      case 7:
+        return 'Jul';
+      case 8:
+        return 'Aug';
+      case 9:
+        return 'Sep';
+      case 10:
+        return 'Oct';
+      case 11:
+        return 'Nov';
+      case 12:
+        return 'Dec';
+      default:
+        return '';
     }
   }
 }

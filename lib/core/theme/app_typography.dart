@@ -23,7 +23,7 @@ class AppTypography {
         fontWeight: FontWeight.w400,
         color: AppColors.textPrimary,
       ),
-      
+
       // Headline styles
       headlineLarge: GoogleFonts.montserrat(
         fontSize: 32,
@@ -40,7 +40,7 @@ class AppTypography {
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
       ),
-      
+
       // Title styles
       titleLarge: GoogleFonts.montserrat(
         fontSize: 22,
@@ -59,7 +59,7 @@ class AppTypography {
         letterSpacing: 0.1,
         color: AppColors.textPrimary,
       ),
-      
+
       // Body styles
       bodyLarge: GoogleFonts.roboto(
         fontSize: 16,
@@ -79,7 +79,7 @@ class AppTypography {
         letterSpacing: 0.4,
         color: AppColors.textSecondary,
       ),
-      
+
       // Label styles
       labelLarge: GoogleFonts.roboto(
         fontSize: 14,

@@ -74,7 +74,8 @@ class ConversationModel {
       lastMessageText: lastMessageText ?? this.lastMessageText,
       lastMessageSenderId: lastMessageSenderId ?? this.lastMessageSenderId,
       lastMessageTime: lastMessageTime ?? this.lastMessageTime,
-      lastMessageHasAttachment: lastMessageHasAttachment ?? this.lastMessageHasAttachment,
+      lastMessageHasAttachment:
+          lastMessageHasAttachment ?? this.lastMessageHasAttachment,
       unreadCount: unreadCount ?? this.unreadCount,
       isOnline: isOnline ?? this.isOnline,
     );

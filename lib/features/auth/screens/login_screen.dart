@@ -8,7 +8,7 @@ import '../../../shared/widgets/app_text_field.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -53,16 +53,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.primary.withAlpha(30),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.family_restroom,
                         size: 60,
                         color: AppColors.primary,
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // App name
                   const Text(
                     'Harmony Bridge',
@@ -73,21 +73,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: AppColors.textPrimary,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   // Tagline
                   Text(
                     'Connecting co-parents for better childcare',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: AppColors.textSecondary,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 48),
-                  
+
                   // Email field
                   AppTextField(
                     controller: _emailController,
@@ -98,9 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputAction: TextInputAction.next,
                     validator: Validators.validateEmail,
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Password field
                   AppTextField(
                     controller: _passwordController,
@@ -110,16 +110,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: !_passwordVisible,
                     textInputAction: TextInputAction.done,
                     validator: Validators.validatePassword,
-                    suffixIcon: _passwordVisible ? Icons.visibility_off : Icons.visibility,
+                    suffixIcon:
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                     onSuffixIconPressed: () {
                       setState(() {
                         _passwordVisible = !_passwordVisible;
                       });
                     },
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   // Remember me and Forgot password
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,19 +141,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Text(
                             'Remember me',
-                            style: TextStyle(
-                              color: AppColors.textSecondary,
-                            ),
+                            style: const TextStyle(color: AppColors.textSecondary),
                           ),
                         ],
                       ),
-                      
+
                       // Forgot password
                       TextButton(
                         onPressed: () {
                           // TODO: Implement forgot password
                         },
-                        child: Text(
+                        child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
                             color: AppColors.primary,
@@ -160,18 +161,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Login button
                   AppButton(
                     onPressed: () => _handleLogin(authProvider),
                     text: 'Log In',
                     isLoading: authProvider.isLoading,
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Error message
                   if (authProvider.error != null)
                     Padding(
@@ -179,28 +180,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         authProvider.error!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.error,
-                          fontSize: 14,
-                        ),
+                        style: const TextStyle(color: AppColors.error, fontSize: 14),
                       ),
                     ),
-                  
+
                   // Register link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Don\'t have an account?',
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                        ),
+                        style: const TextStyle(color: AppColors.textSecondary),
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, AppRouter.register);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRouter.register,
+                          );
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign Up',
                           style: TextStyle(
                             color: AppColors.primary,
@@ -222,14 +221,17 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin(AuthProvider authProvider) async {
     // Hide keyboard
     FocusScope.of(context).unfocus();
-    
+
     // Validate form
     if (_formKey.currentState?.validate() ?? false) {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-      
-      final success = await authProvider.signInWithEmailAndPassword(email, password);
-      
+
+      final success = await authProvider.signInWithEmailAndPassword(
+        email,
+        password,
+      );
+
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, AppRouter.dashboard);
       }

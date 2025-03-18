@@ -17,15 +17,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
   bool _darkModeEnabled = false;
   bool _biometricAuthEnabled = false;
-  
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
+      appBar: AppBar(title: const Text('Settings')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -63,9 +61,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Notifications
             _buildSectionHeader('Notifications'),
             AppCard(
@@ -104,9 +102,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Appearance
             _buildSectionHeader('Appearance'),
             AppCard(
@@ -135,9 +133,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Security
             _buildSectionHeader('Security'),
             AppCard(
@@ -166,9 +164,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // About
             _buildSectionHeader('About'),
             AppCard(
@@ -208,9 +206,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Sign out button
             AppButton(
               onPressed: () => _handleSignOut(authProvider),
@@ -218,9 +216,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               type: AppButtonType.outlined,
               icon: Icons.logout,
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Delete account button
             Center(
               child: TextButton(
@@ -230,33 +228,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
                 child: Text(
                   'Delete Account',
-                  style: TextStyle(
-                    color: Colors.red[700],
-                  ),
+                  style: TextStyle(color: Colors.red[700]),
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 32),
           ],
         ),
       ),
     );
   }
-  
+
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0, left: 4.0),
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }
-  
+
   Widget _buildSettingsItem({
     required IconData icon,
     required String title,
@@ -264,17 +257,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color: AppColors.primary,
-      ),
+      leading: Icon(icon, color: AppColors.primary),
       title: Text(title),
       subtitle: subtitle != null ? Text(subtitle) : null,
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );
   }
-  
+
   Widget _buildSwitchItem({
     required IconData icon,
     required String title,
@@ -283,10 +273,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required ValueChanged<bool> onChanged,
   }) {
     return SwitchListTile(
-      secondary: Icon(
-        icon,
-        color: AppColors.primary,
-      ),
+      secondary: Icon(icon, color: AppColors.primary),
       title: Text(title),
       subtitle: subtitle != null ? Text(subtitle) : null,
       value: value,
@@ -294,7 +281,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       activeColor: AppColors.primary,
     );
   }
-  
+
   void _handleSignOut(AuthProvider authProvider) {
     showDialog(
       context: context,
@@ -324,7 +311,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
     );
   }
-  
+
   void _showDeleteAccountDialog() {
     showDialog(
       context: context,
@@ -346,9 +333,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // TODO: Implement account deletion
                 Navigator.pop(context);
               },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.red[700],
-              ),
+              style: TextButton.styleFrom(foregroundColor: Colors.red[700]),
               child: const Text('Delete'),
             ),
           ],

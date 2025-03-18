@@ -5,7 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -46,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
             ),
-            
+
             // Page content
             Expanded(
               child: PageView(
@@ -59,26 +59,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   _buildPage(
                     title: 'Welcome to Harmony Bridge',
-                    description: 'A co-parenting app designed to make communication easier and improve your children\'s lives.',
+                    description:
+                        'A co-parenting app designed to make communication easier and improve your children\'s lives.',
                     image: 'assets/images/onboarding_1.png',
                     imageSize: 300,
                   ),
                   _buildPage(
                     title: 'Seamless Communication',
-                    description: 'Share important updates, schedules, and documents with your co-parent in one secure place.',
+                    description:
+                        'Share important updates, schedules, and documents with your co-parent in one secure place.',
                     image: 'assets/images/onboarding_2.png',
                     imageSize: 280,
                   ),
                   _buildPage(
                     title: 'Child-Focused Approach',
-                    description: 'Keep your children\'s needs at the center with tools designed to support their well-being.',
+                    description:
+                        'Keep your children\'s needs at the center with tools designed to support their well-being.',
                     image: 'assets/images/onboarding_3.png',
                     imageSize: 280,
                   ),
                 ],
               ),
             ),
-            
+
             // Page indicators
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
@@ -90,28 +93,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
             ),
-            
+
             // Navigation buttons
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 32.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button (hidden on first page)
                   _currentPage > 0
                       ? AppButton(
-                          onPressed: () {
-                            _pageController.previousPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          text: 'Back',
-                          type: AppButtonType.outlined,
-                          width: 120,
-                        )
+                        onPressed: () {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        text: 'Back',
+                        type: AppButtonType.outlined,
+                        width: 120,
+                      )
                       : const SizedBox(width: 120),
-                  
+
                   // Next/Get Started button
                   AppButton(
                     onPressed: () {
@@ -149,28 +155,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           // Image placeholder (will be replaced with actual images)
           Container(
-            width: imageSize,
-            height: imageSize,
-            decoration: BoxDecoration(
-              color: AppColors.background,
-              borderRadius: BorderRadius.circular(imageSize / 2),
-            ),
-            child: Center(
-              child: Icon(
-                _getIconForPage(_currentPage),
-                size: imageSize / 2,
-                color: AppColors.primary.withAlpha(150),
+                width: imageSize,
+                height: imageSize,
+                decoration: BoxDecoration(
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.circular(imageSize / 2),
+                ),
+                child: Center(
+                  child: Icon(
+                    _getIconForPage(_currentPage),
+                    size: imageSize / 2,
+                    color: AppColors.primary.withAlpha(150),
+                  ),
+                ),
+              )
+              .animate()
+              .fadeIn(duration: 600.ms)
+              .slideY(
+                begin: 0.2,
+                end: 0,
+                duration: 600.ms,
+                curve: Curves.easeOutQuad,
               ),
-            ),
-          ).animate().fadeIn(duration: 600.ms).slideY(
-            begin: 0.2,
-            end: 0,
-            duration: 600.ms,
-            curve: Curves.easeOutQuad,
-          ),
-          
+
           const SizedBox(height: 40),
-          
+
           // Title
           Text(
             title,
@@ -180,13 +189,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
             ),
-          ).animate().fadeIn(
-            delay: 200.ms,
-            duration: 600.ms,
-          ),
-          
+          ).animate().fadeIn(delay: 200.ms, duration: 600.ms),
+
           const SizedBox(height: 16),
-          
+
           // Description
           Text(
             description,
@@ -196,10 +202,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               color: AppColors.textSecondary,
               height: 1.5,
             ),
-          ).animate().fadeIn(
-            delay: 400.ms,
-            duration: 600.ms,
-          ),
+          ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
         ],
       ),
     );
@@ -217,7 +220,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-  
+
   IconData _getIconForPage(int page) {
     switch (page) {
       case 0:

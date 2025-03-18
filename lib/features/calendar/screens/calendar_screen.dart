@@ -9,7 +9,7 @@ import '../../../shared/widgets/app_card.dart';
 import '../providers/calendar_provider.dart';
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({Key? key}) : super(key: key);
+  const CalendarScreen({super.key});
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
@@ -20,7 +20,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
-  
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     final calendarProvider = Provider.of<CalendarProvider>(context);
     final selectedEvents = calendarProvider.getEventsForDate(_selectedDay);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
@@ -47,19 +47,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ],
       ),
-      body: calendarProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                // Calendar
-                _buildCalendar(calendarProvider),
-                
-                // Events list
-                Expanded(
-                  child: _buildEventsList(selectedEvents),
-                ),
-              ],
-            ),
+      body:
+          calendarProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                children: [
+                  // Calendar
+                  _buildCalendar(calendarProvider),
+
+                  // Events list
+                  Expanded(child: _buildEventsList(selectedEvents)),
+                ],
+              ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _currentNavIndex,
         onTap: _handleNavigation,
@@ -69,11 +68,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
           _showAddEventDialog(context);
         },
         backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add, color: Colors.white),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
-  
+
   Widget _buildCalendar(CalendarProvider calendarProvider) {
     return TableCalendar(
       firstDay: DateTime.utc(2020, 1, 1),
@@ -132,7 +131,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
     );
   }
-  
+
   Widget _buildEventsList(List<EventModel> events) {
     if (events.isEmpty) {
       return Center(
@@ -145,12 +144,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
               color: AppColors.textSecondary.withAlpha(100),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'No events for this day',
-              style: TextStyle(
-                fontSize: 16,
-                color: AppColors.textSecondary,
-              ),
+              style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
             ),
             const SizedBox(height: 24),
             AppButton(
@@ -165,7 +161,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
       );
     }
-    
+
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: events.length,
@@ -175,12 +171,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
       },
     );
   }
-  
+
   Widget _buildEventCard(EventModel event) {
-    final formattedTime = event.isAllDay 
-        ? 'All day' 
-        : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
-    
+    final formattedTime =
+        event.isAllDay
+            ? 'All day'
+            : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
+
     return AppCard(
       margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
@@ -221,9 +218,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
                   event.description!,
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: TextStyle(color: AppColors.textSecondary),
                 ),
               ),
             if (event.location != null && event.location!.isNotEmpty)
@@ -240,9 +235,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Expanded(
                       child: Text(
                         event.location!,
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                        ),
+                        style: TextStyle(color: AppColors.textSecondary),
                       ),
                     ),
                   ],
@@ -253,20 +246,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Wrap(
                   spacing: 8,
-                  children: event.childrenIds?.map((childId) {
-                    // TODO: Get child name from provider
-                    return Chip(
-                      label: Text(
-                        childId == 'child-1' ? 'Emma' : 'Noah',
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                      backgroundColor: AppColors.background,
-                      padding: EdgeInsets.zero,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    );
-                  }).toList() ?? [],
+                  children:
+                      event.childrenIds?.map((childId) {
+                        // TODO: Get child name from provider
+                        return Chip(
+                          label: Text(
+                            childId == 'child-1' ? 'Emma' : 'Noah',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                          backgroundColor: AppColors.background,
+                          padding: EdgeInsets.zero,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                        );
+                      }).toList() ??
+                      [],
                 ),
               ),
           ],
@@ -280,28 +274,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
               _showDeleteConfirmation(context, event);
             }
           },
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'edit',
-              child: Row(
-                children: [
-                  Icon(Icons.edit, size: 18),
-                  SizedBox(width: 8),
-                  Text('Edit'),
-                ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, size: 18, color: AppColors.error),
-                  SizedBox(width: 8),
-                  Text('Delete', style: TextStyle(color: AppColors.error)),
-                ],
-              ),
-            ),
-          ],
+          itemBuilder:
+              (context) => [
+                const PopupMenuItem(
+                  value: 'edit',
+                  child: Row(
+                    children: [
+                      Icon(Icons.edit, size: 18),
+                      SizedBox(width: 8),
+                      Text('Edit'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete, size: 18, color: AppColors.error),
+                      SizedBox(width: 8),
+                      Text('Delete', style: TextStyle(color: AppColors.error)),
+                    ],
+                  ),
+                ),
+              ],
         ),
         onTap: () {
           // TODO: Navigate to event details
@@ -309,14 +304,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
     );
   }
-  
+
   void _handleNavigation(int index) {
     if (index == _currentNavIndex) return;
-    
+
     setState(() {
       _currentNavIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Dashboard
         Navigator.pushReplacementNamed(context, '/dashboard');
@@ -331,7 +326,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         break;
     }
   }
-  
+
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -364,7 +359,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       },
     );
   }
-  
+
   void _showAddEventDialog(BuildContext context) {
     // TODO: Implement add event dialog
     showDialog(
@@ -374,9 +369,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           title: const Text('Add Event'),
           content: const Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Event creation form will be implemented here'),
-            ],
+            children: [Text('Event creation form will be implemented here')],
           ),
           actions: [
             TextButton(
@@ -397,10 +390,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
       },
     );
   }
-  
+
   void _showDeleteConfirmation(BuildContext context, EventModel event) {
-    final calendarProvider = Provider.of<CalendarProvider>(context, listen: false);
-    
+    final calendarProvider = Provider.of<CalendarProvider>(
+      context,
+      listen: false,
+    );
+
     showDialog(
       context: context,
       builder: (context) {
@@ -429,31 +425,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
       },
     );
   }
-  
+
   // Helper methods
   String _formatTime(DateTime time) {
-    final hour = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final hour =
+        time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.hour >= 12 ? 'PM' : 'AM';
     return '$hour:$minute $period';
   }
-  
+
   Color _getEventColor(EventModel event) {
-    if (event.title.toLowerCase().contains('doctor') || 
+    if (event.title.toLowerCase().contains('doctor') ||
         event.title.toLowerCase().contains('appointment') ||
         event.title.toLowerCase().contains('medical')) {
       return Colors.red;
-    } else if (event.title.toLowerCase().contains('school') || 
-               event.title.toLowerCase().contains('class') ||
-               event.title.toLowerCase().contains('teacher')) {
+    } else if (event.title.toLowerCase().contains('school') ||
+        event.title.toLowerCase().contains('class') ||
+        event.title.toLowerCase().contains('teacher')) {
       return Colors.blue;
-    } else if (event.title.toLowerCase().contains('pickup') || 
-               event.title.toLowerCase().contains('drop') ||
-               event.title.toLowerCase().contains('transport')) {
+    } else if (event.title.toLowerCase().contains('pickup') ||
+        event.title.toLowerCase().contains('drop') ||
+        event.title.toLowerCase().contains('transport')) {
       return Colors.orange;
-    } else if (event.title.toLowerCase().contains('visit') || 
-               event.title.toLowerCase().contains('stay') ||
-               event.title.toLowerCase().contains('weekend')) {
+    } else if (event.title.toLowerCase().contains('visit') ||
+        event.title.toLowerCase().contains('stay') ||
+        event.title.toLowerCase().contains('weekend')) {
       return Colors.purple;
     } else {
       return AppColors.primary;

@@ -36,7 +36,7 @@ class AppTextField extends StatefulWidget {
   final bool showCounter;
 
   const AppTextField({
-    Key? key,
+    super.key,
     this.label,
     this.hint,
     this.helperText,
@@ -61,13 +61,16 @@ class AppTextField extends StatefulWidget {
     this.onSuffixIconPressed,
     this.validator,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
-    this.contentPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    this.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 16,
+      vertical: 16,
+    ),
     this.borderRadius = 12.0,
     this.fillColor,
     this.borderColor,
     this.focusedBorderColor,
     this.showCounter = false,
-  }) : super(key: key);
+  });
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -127,18 +130,22 @@ class _AppTextFieldState extends State<AppTextField> {
         helperText: widget.helperText,
         errorText: widget.errorText,
         filled: true,
-        fillColor: widget.fillColor ?? (widget.enabled ? AppColors.surface : Colors.grey[100]),
+        fillColor:
+            widget.fillColor ??
+            (widget.enabled ? AppColors.surface : Colors.grey[100]),
         contentPadding: widget.contentPadding,
         counterText: widget.showCounter ? null : '',
-        prefixIcon: widget.prefixIcon != null
-            ? Icon(
-                widget.prefixIcon,
-                color: _focusNode.hasFocus
-                    ? AppColors.primary
-                    : AppColors.textSecondary,
-                size: 20,
-              )
-            : null,
+        prefixIcon:
+            widget.prefixIcon != null
+                ? Icon(
+                  widget.prefixIcon,
+                  color:
+                      _focusNode.hasFocus
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
+                  size: 20,
+                )
+                : null,
         suffixIcon: _buildSuffixIcon(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -163,24 +170,15 @@ class _AppTextFieldState extends State<AppTextField> {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: AppColors.error,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: 1.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: AppColors.error,
-            width: 2.0,
-          ),
+          borderSide: BorderSide(color: AppColors.error, width: 2.0),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: Colors.grey[300]!,
-            width: 1.0,
-          ),
+          borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
         ),
       ),
     );
@@ -204,9 +202,8 @@ class _AppTextFieldState extends State<AppTextField> {
       return IconButton(
         icon: Icon(
           widget.suffixIcon,
-          color: _focusNode.hasFocus
-              ? AppColors.primary
-              : AppColors.textSecondary,
+          color:
+              _focusNode.hasFocus ? AppColors.primary : AppColors.textSecondary,
           size: 20,
         ),
         onPressed: widget.onSuffixIconPressed,

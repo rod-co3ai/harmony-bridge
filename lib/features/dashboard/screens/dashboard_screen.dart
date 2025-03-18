@@ -13,7 +13,7 @@ import '../providers/dashboard_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -21,13 +21,16 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentNavIndex = 0;
-  
+
   @override
   void initState() {
     super.initState();
     // Load dashboard data when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DashboardProvider>(context, listen: false).loadDashboardData();
+      Provider.of<DashboardProvider>(
+        context,
+        listen: false,
+      ).loadDashboardData();
     });
   }
 
@@ -36,7 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
     final dashboardProvider = Provider.of<DashboardProvider>(context);
     final user = authProvider.currentUser;
-    
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -50,36 +53,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      body: dashboardProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () => dashboardProvider.refreshDashboardData(),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Welcome section
-                    _buildWelcomeSection(user?.fullName ?? 'User'),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Children section
-                    _buildChildrenSection(dashboardProvider.children),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Upcoming events section
-                    _buildUpcomingEventsSection(dashboardProvider.upcomingEvents),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Recent messages section
-                    _buildRecentMessagesSection(dashboardProvider.recentMessages),
-                  ],
+      body:
+          dashboardProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                onRefresh: () => dashboardProvider.refreshDashboardData(),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Welcome section
+                      _buildWelcomeSection(user?.fullName ?? 'User'),
+
+                      const SizedBox(height: 24),
+
+                      // Children section
+                      _buildChildrenSection(dashboardProvider.children),
+
+                      const SizedBox(height: 24),
+
+                      // Upcoming events section
+                      _buildUpcomingEventsSection(
+                        dashboardProvider.upcomingEvents,
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      // Recent messages section
+                      _buildRecentMessagesSection(
+                        dashboardProvider.recentMessages,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _currentNavIndex,
         onTap: _handleNavigation,
@@ -94,10 +102,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   Widget _buildWelcomeSection(String userName) {
     final greeting = _getGreeting();
-    
+
     return AppCard(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -114,10 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 8),
           Text(
             'Welcome to Harmony Bridge',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textSecondary,
-            ),
+            style: const TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 16),
           Row(
@@ -150,18 +155,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   Widget _buildChildrenSection(List<ChildModel> children) {
     if (children.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Children', onSeeAllPressed: () {
-          Navigator.pushNamed(context, AppRouter.profile);
-        }),
+        _buildSectionHeader(
+          'Children',
+          onSeeAllPressed: () {
+            Navigator.pushNamed(context, AppRouter.profile);
+          },
+        ),
         const SizedBox(height: 12),
         SizedBox(
           height: 110,
@@ -177,15 +185,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
     );
   }
-  
+
   Widget _buildChildCard(ChildModel child) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          AppRouter.childProfile,
-          arguments: child,
-        );
+        Navigator.pushNamed(context, AppRouter.childProfile, arguments: child);
       },
       child: Container(
         width: 100,
@@ -204,34 +208,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child.name,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w500),
             ),
             Text(
               '${child.age} years',
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.textSecondary,
-              ),
+              style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
             ),
           ],
         ),
       ),
     );
   }
-  
+
   Widget _buildUpcomingEventsSection(List<EventModel> events) {
     if (events.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Upcoming Events', onSeeAllPressed: () {
-          Navigator.pushNamed(context, AppRouter.calendar);
-        }),
+        _buildSectionHeader(
+          'Upcoming Events',
+          onSeeAllPressed: () {
+            Navigator.pushNamed(context, AppRouter.calendar);
+          },
+        ),
         const SizedBox(height: 12),
         ListView.builder(
           shrinkWrap: true,
@@ -245,13 +247,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
     );
   }
-  
+
   Widget _buildEventCard(EventModel event) {
     final formattedDate = _formatEventDate(event);
-    final formattedTime = event.isAllDay 
-        ? 'All day' 
-        : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
-    
+    final formattedTime =
+        event.isAllDay
+            ? 'All day'
+            : '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}';
+
     return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
@@ -264,17 +267,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Center(
-            child: Icon(
-              _getEventIcon(event),
-              color: AppColors.primary,
-            ),
+            child: Icon(_getEventIcon(event), color: AppColors.primary),
           ),
         ),
         title: Text(
           event.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,9 +283,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (event.location != null && event.location!.isNotEmpty)
               Text(
                 event.location!,
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                ),
+                style: const TextStyle(color: AppColors.textSecondary),
               ),
           ],
         ),
@@ -298,18 +294,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   Widget _buildRecentMessagesSection(List<MessageModel> messages) {
     if (messages.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader('Recent Messages', onSeeAllPressed: () {
-          Navigator.pushNamed(context, AppRouter.messaging);
-        }),
+        _buildSectionHeader(
+          'Recent Messages',
+          onSeeAllPressed: () {
+            Navigator.pushNamed(context, AppRouter.messaging);
+          },
+        ),
         const SizedBox(height: 12),
         ListView.builder(
           shrinkWrap: true,
@@ -323,11 +322,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
     );
   }
-  
+
   Widget _buildMessageCard(MessageModel message) {
-    final isOutgoing = message.senderId == Provider.of<AuthProvider>(context, listen: false).currentUser?.id;
+    final isOutgoing =
+        message.senderId ==
+        Provider.of<AuthProvider>(context, listen: false).currentUser?.id;
     final formattedTime = _formatMessageTime(message.timestamp);
-    
+
     return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
@@ -341,14 +342,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Text(
               isOutgoing ? 'You' : 'Co-Parent', // TODO: Get actual name
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             const SizedBox(width: 8),
             Text(
               formattedTime,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.textSecondary,
                 fontWeight: FontWeight.normal,
@@ -360,11 +359,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 4),
-            Text(
-              message.content,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            Text(message.content, maxLines: 2, overflow: TextOverflow.ellipsis),
             if (message.attachments != null && message.attachments!.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
@@ -378,7 +373,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(width: 4),
                     Text(
                       '${message.attachments!.length} attachment${message.attachments!.length > 1 ? 's' : ''}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
                       ),
@@ -399,22 +394,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   Widget _buildSectionHeader(String title, {VoidCallback? onSeeAllPressed}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         if (onSeeAllPressed != null)
           TextButton(
             onPressed: onSeeAllPressed,
-            child: Text(
+            child: const Text(
               'See All',
               style: TextStyle(
                 color: AppColors.primary,
@@ -425,14 +417,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
     );
   }
-  
+
   void _handleNavigation(int index) {
     if (index == _currentNavIndex) return;
-    
+
     setState(() {
       _currentNavIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Dashboard - already here
         break;
@@ -447,7 +439,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         break;
     }
   }
-  
+
   void _showQuickActionMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -462,19 +454,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               const Text(
                 'Quick Actions',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(30),
-                  child: Icon(
-                    Icons.event,
-                    color: AppColors.primary,
-                  ),
+                  child: const Icon(Icons.event, color: AppColors.primary),
                 ),
                 title: const Text('Add Event'),
                 onTap: () {
@@ -485,10 +471,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(30),
-                  child: Icon(
-                    Icons.message,
-                    color: AppColors.primary,
-                  ),
+                  child: const Icon(Icons.message, color: AppColors.primary),
                 ),
                 title: const Text('New Message'),
                 onTap: () {
@@ -499,10 +482,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(30),
-                  child: Icon(
-                    Icons.person_add,
-                    color: AppColors.primary,
-                  ),
+                  child: const Icon(Icons.person_add, color: AppColors.primary),
                 ),
                 title: const Text('Add Child'),
                 onTap: () {
@@ -516,7 +496,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
     );
   }
-  
+
   // Helper methods
   String _getGreeting() {
     final hour = DateTime.now().hour;
@@ -528,72 +508,94 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return 'Good evening';
     }
   }
-  
+
   String _formatEventDate(EventModel event) {
     final now = DateTime.now();
     final eventDate = event.startTime;
-    
-    if (eventDate.year == now.year && 
-        eventDate.month == now.month && 
+
+    if (eventDate.year == now.year &&
+        eventDate.month == now.month &&
         eventDate.day == now.day) {
       return 'Today';
-    } else if (eventDate.year == now.year && 
-               eventDate.month == now.month && 
-               eventDate.day == now.day + 1) {
+    } else if (eventDate.year == now.year &&
+        eventDate.month == now.month &&
+        eventDate.day == now.day + 1) {
       return 'Tomorrow';
     } else {
       // Format as "Mon, Jan 1"
       return '${_getDayOfWeek(eventDate)}, ${_getMonth(eventDate)} ${eventDate.day}';
     }
   }
-  
+
   String _getDayOfWeek(DateTime date) {
     switch (date.weekday) {
-      case 1: return 'Mon';
-      case 2: return 'Tue';
-      case 3: return 'Wed';
-      case 4: return 'Thu';
-      case 5: return 'Fri';
-      case 6: return 'Sat';
-      case 7: return 'Sun';
-      default: return '';
+      case 1:
+        return 'Mon';
+      case 2:
+        return 'Tue';
+      case 3:
+        return 'Wed';
+      case 4:
+        return 'Thu';
+      case 5:
+        return 'Fri';
+      case 6:
+        return 'Sat';
+      case 7:
+        return 'Sun';
+      default:
+        return '';
     }
   }
-  
+
   String _getMonth(DateTime date) {
     switch (date.month) {
-      case 1: return 'Jan';
-      case 2: return 'Feb';
-      case 3: return 'Mar';
-      case 4: return 'Apr';
-      case 5: return 'May';
-      case 6: return 'Jun';
-      case 7: return 'Jul';
-      case 8: return 'Aug';
-      case 9: return 'Sep';
-      case 10: return 'Oct';
-      case 11: return 'Nov';
-      case 12: return 'Dec';
-      default: return '';
+      case 1:
+        return 'Jan';
+      case 2:
+        return 'Feb';
+      case 3:
+        return 'Mar';
+      case 4:
+        return 'Apr';
+      case 5:
+        return 'May';
+      case 6:
+        return 'Jun';
+      case 7:
+        return 'Jul';
+      case 8:
+        return 'Aug';
+      case 9:
+        return 'Sep';
+      case 10:
+        return 'Oct';
+      case 11:
+        return 'Nov';
+      case 12:
+        return 'Dec';
+      default:
+        return '';
     }
   }
-  
+
   String _formatTime(DateTime time) {
-    final hour = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final hour =
+        time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.hour >= 12 ? 'PM' : 'AM';
     return '$hour:$minute $period';
   }
-  
+
   String _formatMessageTime(DateTime time) {
     final now = DateTime.now();
     final difference = now.difference(time);
-    
+
     if (difference.inDays > 0) {
       if (difference.inDays == 1) {
         return 'Yesterday';
       } else if (difference.inDays < 7) {
-        return '${_getDayOfWeek(time)}';
+        return _getDayOfWeek(time);
       } else {
         return '${_getMonth(time)} ${time.day}';
       }
@@ -605,23 +607,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return 'Just now';
     }
   }
-  
+
   IconData _getEventIcon(EventModel event) {
-    if (event.title.toLowerCase().contains('doctor') || 
+    if (event.title.toLowerCase().contains('doctor') ||
         event.title.toLowerCase().contains('appointment') ||
         event.title.toLowerCase().contains('medical')) {
       return Icons.medical_services;
-    } else if (event.title.toLowerCase().contains('school') || 
-               event.title.toLowerCase().contains('class') ||
-               event.title.toLowerCase().contains('teacher')) {
+    } else if (event.title.toLowerCase().contains('school') ||
+        event.title.toLowerCase().contains('class') ||
+        event.title.toLowerCase().contains('teacher')) {
       return Icons.school;
-    } else if (event.title.toLowerCase().contains('pickup') || 
-               event.title.toLowerCase().contains('drop') ||
-               event.title.toLowerCase().contains('transport')) {
+    } else if (event.title.toLowerCase().contains('pickup') ||
+        event.title.toLowerCase().contains('drop') ||
+        event.title.toLowerCase().contains('transport')) {
       return Icons.directions_car;
-    } else if (event.title.toLowerCase().contains('visit') || 
-               event.title.toLowerCase().contains('stay') ||
-               event.title.toLowerCase().contains('weekend')) {
+    } else if (event.title.toLowerCase().contains('visit') ||
+        event.title.toLowerCase().contains('stay') ||
+        event.title.toLowerCase().contains('weekend')) {
       return Icons.home;
     } else {
       return Icons.event;

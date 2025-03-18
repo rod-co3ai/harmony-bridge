@@ -41,7 +41,7 @@ class AppTheme {
         surfaceTint: AppColors.primary.withAlpha(13),
       ),
       textTheme: AppTypography.textTheme,
-      
+
       // AppBar theme
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.surface,
@@ -50,18 +50,16 @@ class AppTheme {
         centerTitle: false,
         titleTextStyle: AppTypography.textTheme.titleLarge,
       ),
-      
+
       // Card theme
       cardTheme: CardTheme(
         color: AppColors.surface,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         clipBehavior: Clip.antiAlias,
         margin: const EdgeInsets.all(8),
       ),
-      
+
       // Button themes
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -73,7 +71,7 @@ class AppTheme {
           textStyle: AppTypography.textTheme.labelLarge,
         ),
       ),
-      
+
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -84,22 +82,23 @@ class AppTheme {
           textStyle: AppTypography.textTheme.labelLarge,
         ),
       ),
-      
+
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: AppTypography.textTheme.labelLarge,
         ),
       ),
-      
+
       // Input decoration theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: AppColors.border),
@@ -127,47 +126,43 @@ class AppTheme {
           color: AppColors.error,
         ),
       ),
-      
+
       // Dialog theme
       dialogTheme: DialogTheme(
         backgroundColor: AppColors.surface,
         elevation: 24,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
-      
+
       // Bottom sheet theme
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: AppColors.surface,
         elevation: 16,
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24),
             topRight: Radius.circular(24),
           ),
         ),
       ),
-      
+
       // Snackbar theme
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Colors.grey[900],
         contentTextStyle: AppTypography.textTheme.bodyMedium?.copyWith(
           color: Colors.white,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         behavior: SnackBarBehavior.floating,
       ),
-      
+
       // Divider theme
       dividerTheme: DividerThemeData(
         color: AppColors.divider,
         thickness: 1,
         space: 16,
       ),
-      
+
       // Chip theme
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surface,
@@ -183,7 +178,7 @@ class AppTheme {
           side: BorderSide(color: AppColors.border),
         ),
       ),
-      
+
       // Tab bar theme
       tabBarTheme: TabBarTheme(
         labelColor: AppColors.primary,
@@ -194,7 +189,7 @@ class AppTheme {
       ),
     );
   }
-  
+
   // Dark theme (can be implemented later)
   static ThemeData get darkTheme {
     // For now, just return light theme

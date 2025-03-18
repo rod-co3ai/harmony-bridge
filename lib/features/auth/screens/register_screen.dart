@@ -8,7 +8,7 @@ import '../../../shared/widgets/app_text_field.dart';
 import '../providers/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -86,16 +86,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: AppColors.primary.withAlpha(30),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.family_restroom,
                         size: 40,
                         color: AppColors.primary,
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Full name field
                   AppTextField(
                     controller: _fullNameController,
@@ -105,9 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     validator: Validators.validateRequired,
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Email field
                   AppTextField(
                     controller: _emailController,
@@ -118,9 +118,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     validator: Validators.validateEmail,
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Password field
                   AppTextField(
                     controller: _passwordController,
@@ -130,16 +130,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: !_passwordVisible,
                     textInputAction: TextInputAction.next,
                     validator: Validators.validatePassword,
-                    suffixIcon: _passwordVisible ? Icons.visibility_off : Icons.visibility,
+                    suffixIcon:
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                     onSuffixIconPressed: () {
                       setState(() {
                         _passwordVisible = !_passwordVisible;
                       });
                     },
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Confirm password field
                   AppTextField(
                     controller: _confirmPasswordController,
@@ -149,16 +152,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: !_confirmPasswordVisible,
                     textInputAction: TextInputAction.done,
                     validator: _validateConfirmPassword,
-                    suffixIcon: _confirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                    suffixIcon:
+                        _confirmPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                     onSuffixIconPressed: () {
                       setState(() {
                         _confirmPasswordVisible = !_confirmPasswordVisible;
                       });
                     },
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Terms and conditions
                   Row(
                     children: [
@@ -184,9 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const TextSpan(
-                                text: ' and ',
-                              ),
+                              const TextSpan(text: ' and '),
                               TextSpan(
                                 text: 'Privacy Policy',
                                 style: TextStyle(
@@ -200,24 +204,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Register button
                   AppButton(
-                    onPressed: _agreeToTerms 
-                      ? () {
-                          _handleRegister(authProvider);
-                        } 
-                      : () {
-                          // Do nothing when terms are not agreed to
-                        },
+                    onPressed:
+                        _agreeToTerms
+                            ? () {
+                              _handleRegister(authProvider);
+                            }
+                            : () {
+                              // Do nothing when terms are not agreed to
+                            },
                     text: 'Create Account',
                     isLoading: authProvider.isLoading,
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Error message
                   if (authProvider.error != null)
                     Padding(
@@ -225,26 +230,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text(
                         authProvider.error!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.error,
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: AppColors.error, fontSize: 14),
                       ),
                     ),
-                  
+
                   // Login link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Already have an account?',
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                        ),
+                        style: TextStyle(color: AppColors.textSecondary),
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, AppRouter.login);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRouter.login,
+                          );
                         },
                         child: Text(
                           'Log In',
@@ -268,19 +271,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _handleRegister(AuthProvider authProvider) async {
     // Hide keyboard
     FocusScope.of(context).unfocus();
-    
+
     // Validate form
     if (_formKey.currentState?.validate() ?? false) {
       final fullName = _fullNameController.text.trim();
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-      
+
       final success = await authProvider.registerWithEmailAndPassword(
         email,
         password,
         fullName,
       );
-      
+
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, AppRouter.dashboard);
       }

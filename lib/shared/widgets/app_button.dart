@@ -19,7 +19,7 @@ class AppButton extends StatelessWidget {
   final FontWeight fontWeight;
 
   const AppButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.type = AppButtonType.primary,
@@ -34,7 +34,7 @@ class AppButton extends StatelessWidget {
     this.textColor,
     this.fontSize = 16.0,
     this.fontWeight = FontWeight.w600,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,10 @@ class AppButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(borderRadius),
             ),
             elevation: type == AppButtonType.primary ? 2 : 0,
-            minimumSize: Size(isFullWidth ? double.infinity : (width ?? 0), height),
+            minimumSize: Size(
+              isFullWidth ? double.infinity : (width ?? 0),
+              height,
+            ),
             disabledBackgroundColor: bgColor.withOpacity(0.6),
             disabledForegroundColor: txtColor.withOpacity(0.6),
           ),
@@ -113,7 +116,10 @@ class AppButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
-            minimumSize: Size(isFullWidth ? double.infinity : (width ?? 0), height),
+            minimumSize: Size(
+              isFullWidth ? double.infinity : (width ?? 0),
+              height,
+            ),
           ),
           child: buttonContent,
         );
@@ -127,7 +133,10 @@ class AppButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
-            minimumSize: Size(isFullWidth ? double.infinity : (width ?? 0), height),
+            minimumSize: Size(
+              isFullWidth ? double.infinity : (width ?? 0),
+              height,
+            ),
           ),
           child: buttonContent,
         );

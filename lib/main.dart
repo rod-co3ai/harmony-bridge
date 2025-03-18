@@ -11,13 +11,13 @@ import 'features/profile/providers/profile_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  
+
   // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -27,7 +27,7 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-  
+
   runApp(const MyApp());
 }
 
@@ -60,7 +60,9 @@ class MyApp extends StatelessWidget {
           // Apply global styles or wrappers here
           return MediaQuery(
             // Set default text scaling
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaleFactor: 1.0),
             child: child!,
           );
         },

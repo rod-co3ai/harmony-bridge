@@ -10,11 +10,8 @@ import '../../auth/providers/auth_provider.dart';
 
 class ConversationScreen extends StatefulWidget {
   final String participantId;
-  
-  const ConversationScreen({
-    Key? key,
-    required this.participantId,
-  }) : super(key: key);
+
+  const ConversationScreen({super.key, required this.participantId});
 
   @override
   State<ConversationScreen> createState() => _ConversationScreenState();
@@ -25,17 +22,19 @@ class _ConversationScreenState extends State<ConversationScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _showAttachmentOptions = false;
   List<String> _selectedAttachments = [];
-  
+
   @override
   void initState() {
     super.initState();
     // Load messages when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MessagingProvider>(context, listen: false)
-          .loadMessages(widget.participantId);
+      Provider.of<MessagingProvider>(
+        context,
+        listen: false,
+      ).loadMessages(widget.participantId);
     });
   }
-  
+
   @override
   void dispose() {
     _messageController.dispose();
@@ -48,9 +47,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
     final messagingProvider = Provider.of<MessagingProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
     final currentUserId = authProvider.currentUser?.id ?? 'current-user';
-    final messages = messagingProvider.getMessagesForConversation(currentUserId, widget.participantId);
+    final messages = messagingProvider.getMessagesForConversation(
+      currentUserId,
+      widget.participantId,
+    );
     final participant = messagingProvider.getParticipant(widget.participantId);
-    
+
     // Scroll to bottom when new messages arrive
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -61,7 +63,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
         );
       }
     });
-    
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -87,9 +89,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   participant?.isOnline ?? false ? 'Online' : 'Offline',
                   style: TextStyle(
                     fontSize: 12,
-                    color: participant?.isOnline ?? false
-                        ? AppColors.secondary
-                        : AppColors.textSecondary,
+                    color:
+                        participant?.isOnline ?? false
+                            ? AppColors.secondary
+                            : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -121,13 +124,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
         children: [
           // Messages list
           Expanded(
-            child: messagingProvider.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : messages.isEmpty
+            child:
+                messagingProvider.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : messages.isEmpty
                     ? _buildEmptyState()
                     : _buildMessagesList(messages, currentUserId),
           ),
-          
+
           // Attachment preview
           if (_selectedAttachments.isNotEmpty)
             Container(
@@ -136,61 +140,62 @@ class _ConversationScreenState extends State<ConversationScreen> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: _selectedAttachments.map((attachment) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: AppColors.border,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Icon(
-                              Icons.insert_drive_file,
-                              color: AppColors.textSecondary,
-                              size: 32,
-                            ),
+                  children:
+                      _selectedAttachments.map((attachment) {
+                        return Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: AppColors.border,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          Positioned(
-                            top: 4,
-                            right: 4,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _selectedAttachments.remove(attachment);
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      blurRadius: 2,
-                                    ),
-                                  ],
-                                ),
+                          child: Stack(
+                            children: [
+                              Center(
                                 child: const Icon(
-                                  Icons.close,
-                                  size: 16,
-                                  color: AppColors.error,
+                                  Icons.insert_drive_file,
+                                  color: AppColors.textSecondary,
+                                  size: 32,
                                 ),
                               ),
-                            ),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedAttachments.remove(attachment);
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withAlpha(13),
+                                          blurRadius: 2,
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Icon(
+                                      Icons.close,
+                                      size: 16,
+                                      color: AppColors.error,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
                 ),
               ),
             ),
-          
+
           // Attachment options
           if (_showAttachmentOptions)
             Container(
@@ -250,7 +255,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 ],
               ),
             ),
-          
+
           // Message input
           Container(
             padding: const EdgeInsets.all(8),
@@ -258,7 +263,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withAlpha(13),
                   blurRadius: 4,
                   offset: const Offset(0, -2),
                 ),
@@ -269,12 +274,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 children: [
                   IconButton(
                     icon: Icon(
-                      _showAttachmentOptions
-                          ? Icons.close
-                          : Icons.attach_file,
-                      color: _showAttachmentOptions
-                          ? AppColors.error
-                          : AppColors.textSecondary,
+                      _showAttachmentOptions ? Icons.close : Icons.attach_file,
+                      color:
+                          _showAttachmentOptions
+                              ? AppColors.error
+                              : AppColors.textSecondary,
                     ),
                     onPressed: () {
                       setState(() {
@@ -287,9 +291,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       controller: _messageController,
                       decoration: InputDecoration(
                         hintText: 'Type a message...',
-                        hintStyle: TextStyle(
-                          color: AppColors.textSecondary,
-                        ),
+                        hintStyle: const TextStyle(color: AppColors.textSecondary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(24),
                           borderSide: BorderSide.none,
@@ -307,19 +309,20 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  _messageController.text.trim().isEmpty && _selectedAttachments.isEmpty
+                  _messageController.text.trim().isEmpty &&
+                          _selectedAttachments.isEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.mic, color: AppColors.primary),
-                          onPressed: () {
-                            // TODO: Implement voice message
-                          },
-                        )
+                        icon: const Icon(Icons.mic, color: AppColors.primary),
+                        onPressed: () {
+                          // TODO: Implement voice message
+                        },
+                      )
                       : IconButton(
-                          icon: const Icon(Icons.send, color: AppColors.primary),
-                          onPressed: () {
-                            _sendMessage(messagingProvider, currentUserId);
-                          },
-                        ),
+                        icon: const Icon(Icons.send, color: AppColors.primary),
+                        onPressed: () {
+                          _sendMessage(messagingProvider, currentUserId);
+                        },
+                      ),
                 ],
               ),
             ),
@@ -328,39 +331,33 @@ class _ConversationScreenState extends State<ConversationScreen> {
       ),
     );
   }
-  
+
   Widget _buildEmptyState() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.message,
             size: 64,
-            color: AppColors.textSecondary.withAlpha(100),
+            color: AppColors.textSecondary,
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'No messages yet',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'Start the conversation by sending a message',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
-  
+
   Widget _buildMessagesList(List<MessageModel> messages, String currentUserId) {
     // Group messages by date
     final groupedMessages = <String, List<MessageModel>>{};
@@ -371,10 +368,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
       }
       groupedMessages[date]!.add(message);
     }
-    
-    final sortedDates = groupedMessages.keys.toList()
-      ..sort((a, b) => _parseDate(a).compareTo(_parseDate(b)));
-    
+
+    final sortedDates =
+        groupedMessages.keys.toList()
+          ..sort((a, b) => _parseDate(a).compareTo(_parseDate(b)));
+
     return ListView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.all(16),
@@ -382,7 +380,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       itemBuilder: (context, index) {
         final date = sortedDates[index];
         final messagesForDate = groupedMessages[date]!;
-        
+
         return Column(
           children: [
             // Date header
@@ -393,8 +391,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 color: AppColors.background,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Text(
-                date,
+              child: const Text(
+                'date',
                 style: TextStyle(
                   fontSize: 12,
                   color: AppColors.textSecondary,
@@ -402,21 +400,21 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 ),
               ),
             ),
-            
+
             // Messages for this date
             ...messagesForDate.map((message) {
               final isCurrentUser = message.senderId == currentUserId;
               return _buildMessageBubble(message, isCurrentUser);
-            }).toList(),
+            }),
           ],
         );
       },
     );
   }
-  
+
   Widget _buildMessageBubble(MessageModel message, bool isCurrentUser) {
     final time = DateFormat('h:mm a').format(message.timestamp);
-    
+
     return Align(
       alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -425,7 +423,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
           maxWidth: MediaQuery.of(context).size.width * 0.75,
         ),
         child: Column(
-          crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment:
+              isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             // Message content
             Container(
@@ -433,12 +432,18 @@ class _ConversationScreenState extends State<ConversationScreen> {
               decoration: BoxDecoration(
                 color: isCurrentUser ? AppColors.primary : Colors.white,
                 borderRadius: BorderRadius.circular(16).copyWith(
-                  bottomLeft: isCurrentUser ? const Radius.circular(16) : const Radius.circular(4),
-                  bottomRight: isCurrentUser ? const Radius.circular(4) : const Radius.circular(16),
+                  bottomLeft:
+                      isCurrentUser
+                          ? const Radius.circular(16)
+                          : const Radius.circular(4),
+                  bottomRight:
+                      isCurrentUser
+                          ? const Radius.circular(4)
+                          : const Radius.circular(16),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withAlpha(13),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -451,40 +456,43 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   Text(
                     message.content,
                     style: TextStyle(
-                      color: isCurrentUser ? Colors.white : AppColors.textPrimary,
+                      color:
+                          isCurrentUser ? Colors.white : AppColors.textPrimary,
                     ),
                   ),
-                  
+
                   // Message attachments
-                  if (message.attachments != null && message.attachments!.isNotEmpty)
+                  if (message.attachments != null &&
+                      message.attachments!.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: message.attachments!.map((attachment) {
-                          return Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: AppColors.background,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.insert_drive_file,
-                                color: AppColors.textSecondary,
-                                size: 32,
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                        children:
+                            message.attachments!.map((attachment) {
+                              return Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  color: AppColors.background,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.insert_drive_file,
+                                    color: AppColors.textSecondary,
+                                    size: 32,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                       ),
                     ),
                 ],
               ),
             ),
-            
+
             // Message time
             Padding(
               padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
@@ -493,7 +501,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 children: [
                   Text(
                     time,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.textSecondary,
                     ),
@@ -504,7 +512,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       child: Icon(
                         message.isRead ? Icons.done_all : Icons.done,
                         size: 14,
-                        color: message.isRead ? AppColors.primary : AppColors.textSecondary,
+                        color:
+                            message.isRead
+                                ? AppColors.primary
+                                : AppColors.textSecondary,
                       ),
                     ),
                 ],
@@ -515,7 +526,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       ),
     );
   }
-  
+
   Widget _buildAttachmentOption({
     required IconData icon,
     required String label,
@@ -534,41 +545,35 @@ class _ConversationScreenState extends State<ConversationScreen> {
               color: color.withAlpha(30),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              color: color,
-              size: 24,
-            ),
+            child: Icon(icon, color: color, size: 24),
           ),
           const SizedBox(height: 8),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.textSecondary,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
           ),
         ],
       ),
     );
   }
-  
+
   void _sendMessage(MessagingProvider messagingProvider, String currentUserId) {
     final messageText = _messageController.text.trim();
-    
+
     if (messageText.isNotEmpty || _selectedAttachments.isNotEmpty) {
       final newMessage = MessageModel(
         senderId: currentUserId,
         receiverId: widget.participantId,
         content: messageText,
-        attachments: _selectedAttachments.isNotEmpty ? _selectedAttachments : null,
+        attachments:
+            _selectedAttachments.isNotEmpty ? _selectedAttachments : null,
         timestamp: DateTime.now(),
         status: MessageStatus.sent,
         type: MessageType.text,
       );
-      
+
       messagingProvider.sendMessage(newMessage);
-      
+
       _messageController.clear();
       setState(() {
         _selectedAttachments = [];
@@ -576,7 +581,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       });
     }
   }
-  
+
   void _showConversationOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -591,19 +596,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
             children: [
               const Text(
                 'Conversation Options',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(30),
-                  child: Icon(
-                    Icons.search,
-                    color: AppColors.primary,
-                  ),
+                  child: const Icon(Icons.search, color: AppColors.primary),
                 ),
                 title: const Text('Search in Conversation'),
                 onTap: () {
@@ -614,10 +613,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.primary.withAlpha(30),
-                  child: Icon(
-                    Icons.notifications,
-                    color: AppColors.primary,
-                  ),
+                  child: const Icon(Icons.notifications, color: AppColors.primary),
                 ),
                 title: const Text('Mute Notifications'),
                 onTap: () {
@@ -628,10 +624,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.error.withAlpha(30),
-                  child: Icon(
-                    Icons.delete,
-                    color: AppColors.error,
-                  ),
+                  child: const Icon(Icons.delete, color: AppColors.error),
                 ),
                 title: const Text(
                   'Delete Conversation',
@@ -648,7 +641,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       },
     );
   }
-  
+
   void _showDeleteConfirmation(BuildContext context) {
     showDialog(
       context: context,
@@ -681,14 +674,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
       },
     );
   }
-  
+
   // Helper methods
   String _formatMessageDate(DateTime date) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
     final messageDate = DateTime(date.year, date.month, date.day);
-    
+
     if (messageDate == today) {
       return 'Today';
     } else if (messageDate == yesterday) {
@@ -701,12 +694,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
       return DateFormat('MMMM d, y').format(date);
     }
   }
-  
+
   DateTime _parseDate(String formattedDate) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
-    
+
     if (formattedDate == 'Today') {
       return today;
     } else if (formattedDate == 'Yesterday') {

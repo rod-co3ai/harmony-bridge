@@ -12,7 +12,7 @@ class AppBottomNav extends StatelessWidget {
   final double unselectedFontSize;
 
   const AppBottomNav({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
     this.showLabels = true,
@@ -20,7 +20,7 @@ class AppBottomNav extends StatelessWidget {
     this.iconSize = 24.0,
     this.selectedFontSize = 12.0,
     this.unselectedFontSize = 10.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class AppBottomNavWithFab extends StatelessWidget {
   final double fabSize;
 
   const AppBottomNavWithFab({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
     required this.onFabPressed,
@@ -96,7 +96,7 @@ class AppBottomNavWithFab extends StatelessWidget {
     this.height = 60.0,
     this.iconSize = 24.0,
     this.fabSize = 56.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +119,20 @@ class AppBottomNavWithFab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-              _buildNavItem(1, Icons.calendar_today_outlined, Icons.calendar_today, 'Calendar'),
+              _buildNavItem(
+                1,
+                Icons.calendar_today_outlined,
+                Icons.calendar_today,
+                'Calendar',
+              ),
               // Empty space for FAB
               SizedBox(width: fabSize + 16),
-              _buildNavItem(2, Icons.message_outlined, Icons.message, 'Messages'),
+              _buildNavItem(
+                2,
+                Icons.message_outlined,
+                Icons.message,
+                'Messages',
+              ),
               _buildNavItem(3, Icons.person_outline, Icons.person, 'Profile'),
             ],
           ),
@@ -145,9 +155,14 @@ class AppBottomNavWithFab extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon, IconData activeIcon, String label) {
+  Widget _buildNavItem(
+    int index,
+    IconData icon,
+    IconData activeIcon,
+    String label,
+  ) {
     final bool isSelected = currentIndex == index;
-    
+
     return InkWell(
       onTap: () => onTap(index),
       child: Column(

@@ -16,7 +16,7 @@ class AppCard extends StatelessWidget {
   final Gradient? gradient;
 
   const AppCard({
-    Key? key,
+    super.key,
     required this.child,
     this.backgroundColor,
     this.borderColor,
@@ -28,25 +28,28 @@ class AppCard extends StatelessWidget {
     this.hasShadow = true,
     this.customBorderRadius,
     this.gradient,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final BorderRadius borderRadiusValue = customBorderRadius ?? 
-        BorderRadius.circular(borderRadius);
-    
+    final BorderRadius borderRadiusValue =
+        customBorderRadius ?? BorderRadius.circular(borderRadius);
+
     final BoxDecoration decoration = BoxDecoration(
       color: backgroundColor ?? AppColors.surface,
       borderRadius: borderRadiusValue,
       border: borderColor != null ? Border.all(color: borderColor!) : null,
       gradient: gradient,
-      boxShadow: hasShadow ? [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.1),
-          blurRadius: elevation * 2,
-          offset: Offset(0, elevation),
-        ),
-      ] : null,
+      boxShadow:
+          hasShadow
+              ? [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: elevation * 2,
+                  offset: Offset(0, elevation),
+                ),
+              ]
+              : null,
     );
 
     final Widget cardContent = Container(
@@ -57,16 +60,17 @@ class AppCard extends StatelessWidget {
 
     return Container(
       margin: margin,
-      child: onTap != null
-          ? Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: onTap,
-                borderRadius: borderRadiusValue,
-                child: cardContent,
-              ),
-            )
-          : cardContent,
+      child:
+          onTap != null
+              ? Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onTap,
+                  borderRadius: borderRadiusValue,
+                  child: cardContent,
+                ),
+              )
+              : cardContent,
     );
   }
 }
@@ -86,7 +90,7 @@ class AppSectionCard extends StatelessWidget {
   final bool hasDivider;
 
   const AppSectionCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.child,
     this.trailing,
@@ -98,7 +102,7 @@ class AppSectionCard extends StatelessWidget {
     this.padding = const EdgeInsets.all(16.0),
     this.margin = const EdgeInsets.all(8.0),
     this.hasDivider = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +130,7 @@ class AppSectionCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
@@ -139,7 +143,7 @@ class AppSectionCard extends StatelessWidget {
                     onPressed: onMoreTap,
                     child: Text(
                       'See All',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w500,
                       ),
@@ -149,10 +153,7 @@ class AppSectionCard extends StatelessWidget {
             ),
           ),
           if (hasDivider) Divider(height: 1, thickness: 1),
-          Padding(
-            padding: padding,
-            child: child,
-          ),
+          Padding(padding: padding, child: child),
         ],
       ),
     );
@@ -173,7 +174,7 @@ class EventCard extends StatelessWidget {
   final bool isActive;
 
   const EventCard({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.time,
@@ -184,15 +185,16 @@ class EventCard extends StatelessWidget {
     this.onActionTap,
     this.actionText,
     this.isActive = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final Color cardColor = backgroundColor ?? 
+    final Color cardColor =
+        backgroundColor ??
         (isActive ? AppColors.primary.withOpacity(0.1) : AppColors.surface);
-    
-    final Color actualIconColor = iconColor ?? 
-        (isActive ? AppColors.primary : AppColors.textSecondary);
+
+    final Color actualIconColor =
+        iconColor ?? (isActive ? AppColors.primary : AppColors.textSecondary);
 
     return AppCard(
       backgroundColor: cardColor,
@@ -209,11 +211,7 @@ class EventCard extends StatelessWidget {
               color: actualIconColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12.0),
             ),
-            child: Icon(
-              icon,
-              color: actualIconColor,
-              size: 24.0,
-            ),
+            child: Icon(icon, color: actualIconColor, size: 24.0),
           ),
           SizedBox(width: 12.0),
           Expanded(
@@ -222,7 +220,7 @@ class EventCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
@@ -232,7 +230,7 @@ class EventCard extends StatelessWidget {
                   SizedBox(height: 4.0),
                   Text(
                     subtitle!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14.0,
                       color: AppColors.textSecondary,
                     ),
@@ -250,7 +248,7 @@ class EventCard extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         time!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12.0,
                           color: AppColors.textSecondary,
                         ),
@@ -266,7 +264,7 @@ class EventCard extends StatelessWidget {
               onPressed: onActionTap,
               child: Text(
                 actionText!,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w500,
                 ),

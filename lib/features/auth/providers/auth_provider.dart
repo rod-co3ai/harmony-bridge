@@ -7,7 +7,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   UserModel? _currentUser;
-  bool _mockAuthEnabled = true; // Add this line
+  final bool _mockAuthEnabled = true; // Add this line
 
   // Getters
   bool get isAuthenticated => _isAuthenticated;
@@ -19,11 +19,13 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual authentication with Supabase
-      await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 2),
+      ); // Simulate network delay
+
       // Mock successful authentication
       _currentUser = UserModel(
         id: 'user-123',
@@ -33,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
         phoneNumber: null,
         createdAt: DateTime.now(),
       );
-      
+
       _isAuthenticated = true;
       _setLoading(false);
       notifyListeners();
@@ -47,17 +49,19 @@ class AuthProvider extends ChangeNotifier {
 
   /// Register with email and password
   Future<bool> registerWithEmailAndPassword(
-    String email, 
-    String password, 
-    String fullName
+    String email,
+    String password,
+    String fullName,
   ) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual registration with Supabase
-      await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 2),
+      ); // Simulate network delay
+
       // Mock successful registration
       _currentUser = UserModel(
         id: 'user-123',
@@ -67,7 +71,7 @@ class AuthProvider extends ChangeNotifier {
         phoneNumber: null,
         createdAt: DateTime.now(),
       );
-      
+
       _isAuthenticated = true;
       _setLoading(false);
       notifyListeners();
@@ -82,11 +86,13 @@ class AuthProvider extends ChangeNotifier {
   /// Sign out
   Future<void> signOut() async {
     _setLoading(true);
-    
+
     try {
       // TODO: Implement actual sign out with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       _currentUser = null;
       _isAuthenticated = false;
       _setLoading(false);
@@ -101,11 +107,13 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> resetPassword(String email) async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual password reset with Supabase
-      await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 2),
+      ); // Simulate network delay
+
       _setLoading(false);
       notifyListeners();
       return true;
@@ -119,18 +127,20 @@ class AuthProvider extends ChangeNotifier {
   /// Check if user is authenticated
   Future<bool> checkAuthStatus() async {
     _setLoading(true);
-    
+
     try {
       // TODO: Implement actual auth check with Supabase
-      await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 1),
+      ); // Simulate network delay
+
       // Mock check - will be replaced with actual implementation
       final bool hasSession = _mockAuthEnabled;
-      
+
       // Set default values first
       _currentUser = null;
       _isAuthenticated = false;
-      
+
       if (hasSession) {
         // Mock user data
         _currentUser = UserModel(
@@ -143,7 +153,7 @@ class AuthProvider extends ChangeNotifier {
         );
         _isAuthenticated = true;
       }
-      
+
       _setLoading(false);
       notifyListeners();
       return _isAuthenticated;

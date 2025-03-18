@@ -7,33 +7,35 @@ import '../../../shared/models/message_model.dart';
 class DashboardProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
-  
+
   // Dashboard data
   List<ChildModel> _children = [];
   List<EventModel> _upcomingEvents = [];
   List<MessageModel> _recentMessages = [];
-  
+
   // Getters
   bool get isLoading => _isLoading;
   String? get error => _error;
   List<ChildModel> get children => _children;
   List<EventModel> get upcomingEvents => _upcomingEvents;
   List<MessageModel> get recentMessages => _recentMessages;
-  
+
   /// Load dashboard data
   Future<void> loadDashboardData() async {
     _setLoading(true);
     _clearError();
-    
+
     try {
       // TODO: Implement actual data fetching from Supabase
-      await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
-      
+      await Future.delayed(
+        const Duration(seconds: 2),
+      ); // Simulate network delay
+
       // Mock data - will be replaced with actual implementation
       _children = _getMockChildren();
       _upcomingEvents = _getMockEvents();
       _recentMessages = _getMockMessages();
-      
+
       _setLoading(false);
       notifyListeners();
     } catch (e) {
@@ -41,12 +43,12 @@ class DashboardProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
-  
+
   /// Refresh dashboard data
   Future<void> refreshDashboardData() async {
     await loadDashboardData();
   }
-  
+
   // Helper methods
   void _setLoading(bool loading) {
     _isLoading = loading;
@@ -62,7 +64,7 @@ class DashboardProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
   }
-  
+
   // Mock data generators
   List<ChildModel> _getMockChildren() {
     final now = DateTime.now();
@@ -89,7 +91,7 @@ class DashboardProvider extends ChangeNotifier {
       ),
     ];
   }
-  
+
   List<EventModel> _getMockEvents() {
     final now = DateTime.now();
     return [
@@ -104,7 +106,7 @@ class DashboardProvider extends ChangeNotifier {
         isAllDay: false,
         recurrence: null,
         reminders: [
-          Reminder(minutesBefore: 30, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 30, method: ReminderMethod.notification),
         ],
         type: EventType.pickup,
         creatorId: 'user-123',
@@ -124,7 +126,7 @@ class DashboardProvider extends ChangeNotifier {
         recurrence: null,
         reminders: [
           Reminder(minutesBefore: 60, method: ReminderMethod.notification),
-          Reminder(minutesBefore: 1440, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 1440, method: ReminderMethod.notification),
         ],
         type: EventType.medical,
         creatorId: 'user-123',
@@ -143,7 +145,7 @@ class DashboardProvider extends ChangeNotifier {
         isAllDay: true,
         recurrence: null,
         reminders: [
-          Reminder(minutesBefore: 1440, method: ReminderMethod.notification)
+          Reminder(minutesBefore: 1440, method: ReminderMethod.notification),
         ],
         type: EventType.vacation,
         creatorId: 'user-456',
@@ -153,7 +155,7 @@ class DashboardProvider extends ChangeNotifier {
       ),
     ];
   }
-  
+
   List<MessageModel> _getMockMessages() {
     final now = DateTime.now();
     return [
@@ -161,34 +163,43 @@ class DashboardProvider extends ChangeNotifier {
         id: 'msg-1',
         senderId: 'user-456',
         receiverId: 'user-123',
-        content: 'Emma forgot her science textbook at my place. I\'ll drop it off tomorrow.',
+        content:
+            'Emma forgot her science textbook at my place. I\'ll drop it off tomorrow.',
         timestamp: now.subtract(const Duration(hours: 2)),
         status: MessageStatus.read,
         type: MessageType.text,
         attachments: [],
-        metadata: {'childrenIds': ['child-1']},
+        metadata: {
+          'childrenIds': ['child-1'],
+        },
       ),
       MessageModel(
         id: 'msg-2',
         senderId: 'user-123',
         receiverId: 'user-456',
-        content: 'Thanks for letting me know. I\'ll remind her to check her backpack next time.',
+        content:
+            'Thanks for letting me know. I\'ll remind her to check her backpack next time.',
         timestamp: now.subtract(const Duration(hours: 1, minutes: 45)),
         status: MessageStatus.read,
         type: MessageType.text,
         attachments: [],
-        metadata: {'childrenIds': ['child-1']},
+        metadata: {
+          'childrenIds': ['child-1'],
+        },
       ),
       MessageModel(
         id: 'msg-3',
         senderId: 'user-456',
         receiverId: 'user-123',
-        content: 'Noah\'s soccer practice has been moved to 4pm on Thursdays starting next week.',
+        content:
+            'Noah\'s soccer practice has been moved to 4pm on Thursdays starting next week.',
         timestamp: now.subtract(const Duration(minutes: 30)),
         status: MessageStatus.delivered,
         type: MessageType.text,
         attachments: [],
-        metadata: {'childrenIds': ['child-2']},
+        metadata: {
+          'childrenIds': ['child-2'],
+        },
       ),
     ];
   }

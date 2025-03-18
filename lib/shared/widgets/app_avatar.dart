@@ -15,7 +15,7 @@ class AppAvatar extends StatelessWidget {
   final BoxFit fit;
 
   const AppAvatar({
-    Key? key,
+    super.key,
     this.imageUrl,
     this.name,
     this.size = 48.0,
@@ -26,16 +26,16 @@ class AppAvatar extends StatelessWidget {
     this.isOnline = false,
     this.badge,
     this.fit = BoxFit.cover,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     // Determine the background color based on the name
     Color avatarColor = backgroundColor ?? _getColorFromName(name);
-    
+
     // Create the avatar content
     Widget avatarContent;
-    
+
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       // Image avatar
       avatarContent = ClipRRect(
@@ -57,10 +57,11 @@ class AppAvatar extends StatelessWidget {
               color: avatarColor,
               child: Center(
                 child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                      : null,
+                  value:
+                      loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
                   strokeWidth: 2.0,
                   color: Colors.white,
                 ),
@@ -73,23 +74,24 @@ class AppAvatar extends StatelessWidget {
       // Initials avatar
       avatarContent = _buildInitialsAvatar(avatarColor);
     }
-    
+
     // Create the avatar with border if needed
     Widget avatar = Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: borderWidth > 0
-            ? Border.all(
-                color: borderColor ?? AppColors.primary,
-                width: borderWidth,
-              )
-            : null,
+        border:
+            borderWidth > 0
+                ? Border.all(
+                  color: borderColor ?? AppColors.primary,
+                  width: borderWidth,
+                )
+                : null,
       ),
       child: avatarContent,
     );
-    
+
     // Add online indicator if needed
     if (isOnline || badge != null) {
       avatar = Stack(
@@ -105,44 +107,30 @@ class AppAvatar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.success,
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2.0,
-                  ),
+                  border: Border.all(color: Colors.white, width: 2.0),
                 ),
               ),
             ),
-          if (badge != null)
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: badge!,
-            ),
+          if (badge != null) Positioned(right: 0, bottom: 0, child: badge!),
         ],
       );
     }
-    
+
     // Make it tappable if needed
     if (onTap != null) {
-      avatar = GestureDetector(
-        onTap: onTap,
-        child: avatar,
-      );
+      avatar = GestureDetector(onTap: onTap, child: avatar);
     }
-    
+
     return avatar;
   }
-  
+
   Widget _buildInitialsAvatar(Color backgroundColor) {
     String initials = _getInitials(name);
-    
+
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
       child: Center(
         child: Text(
           initials,
@@ -155,12 +143,12 @@ class AppAvatar extends StatelessWidget {
       ),
     );
   }
-  
+
   String _getInitials(String? name) {
     if (name == null || name.isEmpty) {
       return '?';
     }
-    
+
     final List<String> nameParts = name.trim().split(' ');
     if (nameParts.length >= 2) {
       return '${nameParts[0][0]}${nameParts[1][0]}'.toUpperCase();
@@ -168,12 +156,12 @@ class AppAvatar extends StatelessWidget {
       return name.substring(0, 1).toUpperCase();
     }
   }
-  
+
   Color _getColorFromName(String? name) {
     if (name == null || name.isEmpty) {
       return AppColors.primary;
     }
-    
+
     // Generate a color based on the name
     final int hashCode = name.hashCode;
     final List<Color> colors = [
@@ -188,7 +176,7 @@ class AppAvatar extends StatelessWidget {
       Colors.cyan,
       Colors.brown,
     ];
-    
+
     return colors[hashCode.abs() % colors.length];
   }
 }
@@ -205,7 +193,7 @@ class AppGroupAvatar extends StatelessWidget {
   final VoidCallback? onTap;
 
   const AppGroupAvatar({
-    Key? key,
+    super.key,
     required this.imageUrls,
     this.names,
     this.size = 48.0,
@@ -214,14 +202,16 @@ class AppGroupAvatar extends StatelessWidget {
     this.borderColor = Colors.white,
     this.maxDisplayed = 3,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final int totalCount = imageUrls.length;
-    final int displayCount = totalCount > maxDisplayed ? maxDisplayed : totalCount;
-    final double stackWidth = size + (size * (1 - overlap) * (displayCount - 1));
-    
+    final int displayCount =
+        totalCount > maxDisplayed ? maxDisplayed : totalCount;
+    final double stackWidth =
+        size + (size * (1 - overlap) * (displayCount - 1));
+
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
@@ -249,10 +239,7 @@ class AppGroupAvatar extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.primary,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: borderColor,
-                      width: borderWidth,
-                    ),
+                    border: Border.all(color: borderColor, width: borderWidth),
                   ),
                   child: Center(
                     child: Text(

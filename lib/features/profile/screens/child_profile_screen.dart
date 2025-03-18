@@ -10,10 +10,7 @@ import '../providers/profile_provider.dart';
 class ChildProfileScreen extends StatefulWidget {
   final String childId;
 
-  const ChildProfileScreen({
-    super.key,
-    required this.childId,
-  });
+  const ChildProfileScreen({super.key, required this.childId});
 
   @override
   State<ChildProfileScreen> createState() => _ChildProfileScreenState();
@@ -35,9 +32,12 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
     });
 
     // Fetch child data using the provider
-    final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    final profileProvider = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    );
     await profileProvider.loadChildDetails(widget.childId);
-    
+
     setState(() {
       isLoading = false;
     });
@@ -47,16 +47,14 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
     child = profileProvider.getChildById(widget.childId);
-    
+
     if (isLoading || child == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Child Profile'),
-        ),
+        appBar: AppBar(title: const Text('Child Profile')),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(child!.name),
@@ -73,42 +71,43 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
           ),
         ],
       ),
-      body: profileProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Child profile header
-                  _buildChildHeader(child!),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Child details
-                  _buildChildDetails(child!),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Child schedule
-                  _buildChildSchedule(child!),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Child notes
-                  _buildChildNotes(child!),
-                ],
+      body:
+          profileProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Child profile header
+                    _buildChildHeader(child!),
+
+                    const SizedBox(height: 24),
+
+                    // Child details
+                    _buildChildDetails(child!),
+
+                    const SizedBox(height: 24),
+
+                    // Child schedule
+                    _buildChildSchedule(child!),
+
+                    const SizedBox(height: 24),
+
+                    // Child notes
+                    _buildChildNotes(child!),
+                  ],
+                ),
               ),
-            ),
     );
   }
-  
+
   Widget _buildChildHeader(ChildModel child) {
     return AppCard(
       child: Column(
         children: [
           const SizedBox(height: 16),
-          
+
           // Child avatar
           AppAvatar(
             imageUrl: child.profileImageUrl,
@@ -117,56 +116,48 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
             borderColor: AppColors.primary,
             borderWidth: 3,
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Child name
           Text(
             child.name,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          
+
           const SizedBox(height: 4),
-          
+
           // Child age
           Text(
             '${child.age} years old',
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
-          
+
           const SizedBox(height: 16),
         ],
       ),
     );
   }
-  
+
   Widget _buildChildDetails(ChildModel child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           'Details',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         AppCard(
           child: Column(
             children: [
               _buildDetailItem(
                 icon: Icons.cake_outlined,
                 title: 'Date of Birth',
-                value: '${child.dateOfBirth.day}/${child.dateOfBirth.month}/${child.dateOfBirth.year}',
+                value:
+                    '${child.dateOfBirth.day}/${child.dateOfBirth.month}/${child.dateOfBirth.year}',
               ),
               const Divider(),
               if (child.schoolName != null && child.schoolName!.isNotEmpty) ...[
@@ -185,8 +176,8 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
                 ),
                 const Divider(),
               ],
-              if (child.healthInfo != null && 
-                  child.healthInfo!.containsKey('allergies') && 
+              if (child.healthInfo != null &&
+                  child.healthInfo!.containsKey('allergies') &&
                   child.healthInfo!['allergies'] != null) ...[
                 _buildDetailItem(
                   icon: Icons.health_and_safety_outlined,
@@ -195,7 +186,8 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
                 ),
                 const Divider(),
               ],
-              if (child.medicalInfo != null && child.medicalInfo!.isNotEmpty) ...[
+              if (child.medicalInfo != null &&
+                  child.medicalInfo!.isNotEmpty) ...[
                 _buildDetailItem(
                   icon: Icons.medical_information_outlined,
                   title: 'Medical Information',
@@ -206,7 +198,8 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
               _buildDetailItem(
                 icon: Icons.calendar_today_outlined,
                 title: 'Added on',
-                value: '${child.createdAt.day}/${child.createdAt.month}/${child.createdAt.year}',
+                value:
+                    '${child.createdAt.day}/${child.createdAt.month}/${child.createdAt.year}',
               ),
             ],
           ),
@@ -214,21 +207,18 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
       ],
     );
   }
-  
+
   Widget _buildChildSchedule(ChildModel child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           'Weekly Schedule',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         if (child.schedule != null && child.schedule!.isNotEmpty)
           AppCard(
             child: Column(
@@ -261,9 +251,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
                                       color: AppColors.textSecondary,
                                     ),
                                     const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(activity),
-                                    ),
+                                    Expanded(child: Text(activity)),
                                   ],
                                 ),
                               ),
@@ -284,9 +272,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
               child: Center(
                 child: Text(
                   'No schedule available',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: TextStyle(color: AppColors.textSecondary),
                 ),
               ),
             ),
@@ -294,38 +280,34 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
       ],
     );
   }
-  
+
   Widget _buildChildNotes(ChildModel child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           'Notes',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         AppCard(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: child.notes != null && child.notes!.isNotEmpty
-                ? Text(child.notes!)
-                : Text(
-                    'No notes available',
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
+            child:
+                child.notes != null && child.notes!.isNotEmpty
+                    ? Text(child.notes!)
+                    : Text(
+                      'No notes available',
+                      style: TextStyle(color: AppColors.textSecondary),
                     ),
-                  ),
           ),
         ),
       ],
     );
   }
-  
+
   Widget _buildDetailItem({
     required IconData icon,
     required String title,
@@ -336,11 +318,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon,
-            color: AppColors.primary,
-            size: 24,
-          ),
+          Icon(icon, color: AppColors.primary, size: 24),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -354,12 +332,7 @@ class _ChildProfileScreenState extends State<ChildProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
+                Text(value, style: const TextStyle(fontSize: 16)),
               ],
             ),
           ),

@@ -36,7 +36,7 @@ class UserModel {
     this.preferences,
     required this.createdAt,
     DateTime? updatedAt,
-  }) : this.updatedAt = updatedAt ?? createdAt;
+  }) : updatedAt = updatedAt ?? createdAt;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -103,10 +103,4 @@ class UserModel {
 }
 
 /// Enum representing the role of a user in the co-parenting app
-enum UserRole {
-  parent,
-  guardian,
-  familyMember,
-  professional,
-  admin,
-}
+enum UserRole { parent, guardian, familyMember, professional, admin }

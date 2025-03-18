@@ -31,9 +31,8 @@ class MessageModel {
     this.metadata,
     this.isAiGenerated = false,
     this.sentimentAnalysis,
-  }) : 
-    id = id ?? const Uuid().v4(),
-    timestamp = timestamp ?? DateTime.now();
+  }) : id = id ?? const Uuid().v4(),
+       timestamp = timestamp ?? DateTime.now();
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
@@ -50,15 +49,17 @@ class MessageModel {
         (status) => status.toString() == 'MessageStatus.${json['status']}',
         orElse: () => MessageStatus.sent,
       ),
-      attachments: json['attachments'] != null 
-        ? List<String>.from(json['attachments']) 
-        : null,
+      attachments:
+          json['attachments'] != null
+              ? List<String>.from(json['attachments'])
+              : null,
       parentMessageId: json['parent_message_id'],
       metadata: json['metadata'],
       isAiGenerated: json['is_ai_generated'] ?? false,
-      sentimentAnalysis: json['sentiment_analysis'] != null
-        ? SentimentAnalysis.fromJson(json['sentiment_analysis'])
-        : null,
+      sentimentAnalysis:
+          json['sentiment_analysis'] != null
+              ? SentimentAnalysis.fromJson(json['sentiment_analysis'])
+              : null,
     );
   }
 
@@ -126,13 +127,7 @@ enum MessageType {
 }
 
 /// Enum representing the status of a message
-enum MessageStatus {
-  sending,
-  sent,
-  delivered,
-  read,
-  failed,
-}
+enum MessageStatus { sending, sent, delivered, read, failed }
 
 /// Class representing sentiment analysis of a message
 class SentimentAnalysis {
@@ -154,12 +149,12 @@ class SentimentAnalysis {
     return SentimentAnalysis(
       score: json['score'].toDouble(),
       sentiment: json['sentiment'],
-      emotions: json['emotions'] != null 
-        ? Map<String, double>.from(json['emotions'])
-        : null,
-      keywords: json['keywords'] != null 
-        ? List<String>.from(json['keywords'])
-        : null,
+      emotions:
+          json['emotions'] != null
+              ? Map<String, double>.from(json['emotions'])
+              : null,
+      keywords:
+          json['keywords'] != null ? List<String>.from(json['keywords']) : null,
       summary: json['summary'],
     );
   }

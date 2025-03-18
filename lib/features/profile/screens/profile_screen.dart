@@ -12,7 +12,7 @@ import '../providers/profile_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,15 +20,21 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int _currentNavIndex = 3;
-  
+
   @override
   void initState() {
     super.initState();
     // Load profile data when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final userId = authProvider.currentUser?.id ?? UserModel.currentUserId ?? 'default_user_id';
-      Provider.of<ProfileProvider>(context, listen: false).loadUserProfile(userId);
+      final userId =
+          authProvider.currentUser?.id ??
+          UserModel.currentUserId ??
+          'default_user_id';
+      Provider.of<ProfileProvider>(
+        context,
+        listen: false,
+      ).loadUserProfile(userId);
       // The children are loaded as part of the loadUserProfile method
     });
   }
@@ -39,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = profileProvider.userProfile ?? authProvider.currentUser;
     final children = profileProvider.children;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -52,62 +58,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-      body: profileProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () async {
-                final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                final userId = authProvider.currentUser?.id ?? UserModel.currentUserId ?? 'default_user_id';
-                await Provider.of<ProfileProvider>(context, listen: false).loadUserProfile(userId);
-              },
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // User profile section
-                    _buildUserProfileSection(user),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Children section
-                    _buildChildrenSection(children),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Account section
-                    _buildAccountSection(),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Sign out button
-                    AppButton(
-                      onPressed: () => _handleSignOut(authProvider),
-                      text: 'Sign Out',
-                      type: AppButtonType.outlined,
-                      icon: Icons.logout,
-                    ),
-                  ],
+      body:
+          profileProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                onRefresh: () async {
+                  final authProvider = Provider.of<AuthProvider>(
+                    context,
+                    listen: false,
+                  );
+                  final userId =
+                      authProvider.currentUser?.id ??
+                      UserModel.currentUserId ??
+                      'default_user_id';
+                  await Provider.of<ProfileProvider>(
+                    context,
+                    listen: false,
+                  ).loadUserProfile(userId);
+                },
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // User profile section
+                      _buildUserProfileSection(user),
+
+                      const SizedBox(height: 24),
+
+                      // Children section
+                      _buildChildrenSection(children),
+
+                      const SizedBox(height: 24),
+
+                      // Account section
+                      _buildAccountSection(),
+
+                      const SizedBox(height: 24),
+
+                      // Sign out button
+                      AppButton(
+                        onPressed: () => _handleSignOut(authProvider),
+                        text: 'Sign Out',
+                        type: AppButtonType.outlined,
+                        icon: Icons.logout,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: _currentNavIndex,
         onTap: _handleNavigation,
       ),
     );
   }
-  
+
   Widget _buildUserProfileSection(UserModel? user) {
     if (user == null) {
       return const SizedBox.shrink();
     }
-    
+
     return AppCard(
       child: Column(
         children: [
           const SizedBox(height: 16),
-          
+
           // User avatar
           AppAvatar(
             imageUrl: user.profileImageUrl,
@@ -116,31 +132,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
             borderColor: AppColors.primary,
             borderWidth: 3,
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // User name
           Text(
             user.fullName,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          
+
           const SizedBox(height: 4),
-          
+
           // User email
           Text(
             user.email,
-            style: TextStyle(
-              fontSize: 16,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Edit profile button
           AppButton(
             onPressed: () {
@@ -150,13 +160,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             type: AppButtonType.outlined,
             icon: Icons.edit,
           ),
-          
+
           const SizedBox(height: 16),
         ],
       ),
     );
   }
-  
+
   Widget _buildChildrenSection(List<ChildModel> children) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,10 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             const Text(
               'Children',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             TextButton.icon(
               onPressed: () {
@@ -177,15 +184,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               icon: const Icon(Icons.add, size: 18),
               label: const Text('Add Child'),
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.primary,
-              ),
+              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
             ),
           ],
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         if (children.isEmpty)
           AppCard(
             child: Padding(
@@ -232,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-  
+
   Widget _buildChildCard(ChildModel child) {
     return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
@@ -247,10 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         title: Text(
           child.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,11 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         trailing: IconButton(
           icon: const Icon(Icons.edit),
           onPressed: () {
-            Navigator.pushNamed(
-              context,
-              AppRouter.editChild,
-              arguments: child,
-            );
+            Navigator.pushNamed(context, AppRouter.editChild, arguments: child);
           },
         ),
         onTap: () {
@@ -281,21 +279,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-  
+
   Widget _buildAccountSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           'Account',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         AppCard(
           child: Column(
             children: [
@@ -344,30 +339,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-  
+
   Widget _buildSettingsItem({
     required IconData icon,
     required String title,
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color: AppColors.primary,
-      ),
+      leading: Icon(icon, color: AppColors.primary),
       title: Text(title),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );
   }
-  
+
   void _handleNavigation(int index) {
     if (index == _currentNavIndex) return;
-    
+
     setState(() {
       _currentNavIndex = index;
     });
-    
+
     switch (index) {
       case 0: // Dashboard
         Navigator.pushReplacementNamed(context, AppRouter.dashboard);
@@ -382,7 +374,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         break;
     }
   }
-  
+
   void _handleSignOut(AuthProvider authProvider) {
     showDialog(
       context: context,
