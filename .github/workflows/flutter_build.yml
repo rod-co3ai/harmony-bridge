@@ -11,6 +11,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -19,11 +21,22 @@ jobs:
           channel: 'stable'
           cache: true
       
+      - name: Check Flutter environment
+        run: |
+          flutter --version
+          dart --version
+      
       - name: Install dependencies
         run: |
           flutter clean
-          flutter pub get
-          flutter doctor -v
+          flutter pub get --no-example
+      
+      - name: Create required directories
+        run: |
+          mkdir -p assets/images
+          mkdir -p assets/icons
+          touch assets/images/.gitkeep
+          touch assets/icons/.gitkeep
       
       - name: Enable web
         run: flutter config --enable-web
